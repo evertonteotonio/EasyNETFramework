@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Common;
 using Entity;
 using Dapper;
 using NLog;
@@ -85,13 +84,16 @@ namespace Data
             return null;
         }
 
-        public List<Profile> FindAll(string where = "")
+        public List<Profile> FindAll(int page = 1,
+            int pageSize = 10,
+            string where = "",
+            string orderBy = "")
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.GetList<Profile>(where);
+                    var item = connection.GetListPaged<Profile>(page, pageSize, where, orderBy);
                     Logger.Trace($"Find All item count: {item.Count()}");
                     return (List<Profile>) item;
                 }

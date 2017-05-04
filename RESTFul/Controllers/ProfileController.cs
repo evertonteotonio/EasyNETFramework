@@ -12,11 +12,14 @@ namespace RESTFul.Controllers
     {
         // GET: api/values
         [HttpGet]
-        [Route("GetAll")]
-        public List<Profile> GetAll()
+        [Route("FindAll")]
+        public List<Profile> FindAll(int page = 1,
+            int pageSize = 10,
+            string where = "",
+            string orderBy = "")
         {
             ProfileManager manager = new ProfileManager();
-            return manager.FindAll();
+            return manager.FindAll(page, pageSize, where, orderBy);
         }
 
         // GET api/values/5

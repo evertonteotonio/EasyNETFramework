@@ -12,6 +12,9 @@ namespace Data
         T Update(T item);
         T Delete(T item);
         T FindById(int id);
-        List<T> FindAll(string where = "");
+        List<T> FindAll(int page = 1,
+            int pageSize = 10,
+            string where = "",
+            string orderBy = "");
     }
 }
