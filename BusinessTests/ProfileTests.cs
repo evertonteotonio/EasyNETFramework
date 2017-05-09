@@ -67,5 +67,15 @@ namespace BusinessTests
             /*Assert.Greater(result.Count, 0);
             Assert.NotNull(result);*/
         }
+        [Test]
+        public void Count()
+        {
+            ProfileManager manager = new ProfileManager();
+            Assert.Greater(manager.Count(), 0);
+            Assert.Greater(manager.Count("where Id > 2"), 0);
+            //var result = manager.FindAll(,,,"where Id > 2");
+            /*Assert.Greater(result.Count, 0);
+            Assert.NotNull(result);*/
+        }
     }
 }

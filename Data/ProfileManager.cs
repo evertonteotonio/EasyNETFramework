@@ -105,13 +105,13 @@ namespace Data
             return null;
         }
 
-        public int Count()
+        public int Count(string where = "")
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var count = connection.RecordCount<Profile>();
+                    var count = connection.RecordCount<Profile>(where);
                     Logger.Trace($"Find All item count: {count}");
                     return count;
                 }

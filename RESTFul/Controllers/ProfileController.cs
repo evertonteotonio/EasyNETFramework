@@ -54,10 +54,10 @@ namespace RESTFul.Controllers
         }
         [Route("Count")]
         [HttpGet]
-        public int Count()
+        public int Count(string where = "")
         {
             ProfileManager manager = new ProfileManager();
-            return manager.Count();
+            return manager.Count(where);
         }
     }
 }
