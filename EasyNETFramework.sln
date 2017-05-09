@@ -33,6 +33,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "UI", "UI\", "{2CFA37E9-586F
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "61363"
+		SlnRelativePath = "UI\"
 	EndProjectSection
 EndProject
 Global

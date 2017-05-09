@@ -25,10 +25,16 @@ namespace RESTFul
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("Main", builder =>
+            {
+                builder.WithOrigins("http://localhost:8080")
+                    .AllowAnyMethod();
+            }));
             // Add framework services.
             services.AddMvc();
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,8 +43,9 @@ namespace RESTFul
             app.UseResponseCompression();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseCors("Main");
             app.UseMvc();
+            
         }
     }
 }

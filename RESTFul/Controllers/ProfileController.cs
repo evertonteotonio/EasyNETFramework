@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using Data;
 using Entity;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFul.Controllers
 {
+    //[EnableCors("Main")]
     [Route("api/[controller]")]
     public class ProfileController : Controller
     {
