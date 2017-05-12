@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using RESTFul.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,8 +10,24 @@ namespace RESTFul.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        [AllowAnonymous]
+        public string Get(string username, string password)
+        {
+            if (CheckUser(username, password))
+            {
+                return JwtManager.GenerateToken(username);
+            }
+
+            return "Error";
+        }
+
+        public bool CheckUser(string username, string password)
+        {
+            // should check in the database
+            return true;
+        }
         // GET: api/values
-        [HttpGet]
+        [JwtAuthentication]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
