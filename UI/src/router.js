@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
@@ -21,7 +21,7 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Index') }, // Default
+    { path: '/', component: load('login') }, // Default
     { path: '*', component: load('Error404') } // Not found
   ]
 })

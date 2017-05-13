@@ -11,7 +11,7 @@ namespace Data
     public class ProfileManager : IManager<Profile>
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
+
         public Profile Add(Profile item)
         {
             try

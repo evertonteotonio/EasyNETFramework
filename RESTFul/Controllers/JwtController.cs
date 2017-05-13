@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -11,10 +9,14 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Entity;
+using Data;
+using Microsoft.AspNetCore.Cors;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFul.Controllers
 {
+    [EnableCors("Main")]
     [Route("api/[controller]")]
     public class JwtController : Controller
     {
@@ -36,7 +38,7 @@ namespace RESTFul.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromForm] ApplicationUser applicationUser)
+        public async Task<IActionResult> Get([FromBody] User applicationUser)
         {
             var identity = await GetClaimsIdentity(applicationUser);
             if (identity == null)
@@ -50,7 +52,7 @@ namespace RESTFul.Controllers
         new Claim(JwtRegisteredClaimNames.Sub, applicationUser.UserName),
         new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
         new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-        identity.FindFirst("DisneyCharacter")
+        identity.FindFirst("EasyClaim")
       };
 
             // Create the JWT security token and encode it.
@@ -104,20 +106,19 @@ namespace RESTFul.Controllers
         /// You'd want to retrieve claims through your claims provider
         /// in whatever way suits you, the below is purely for demo purposes!
         /// </summary>
-        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user)
+        private static Task<ClaimsIdentity> GetClaimsIdentity(User user)
         {
-            if (user.UserName == "MickeyMouse" &&
-                user.Password == "MickeyMouseIsBoss123")
+            if (user.UserName == "admin" &&
+                user.Password == "123456")
             {
                 return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
                   new[]
                   {
-            new Claim("DisneyCharacter", "IAmMickey")
+            new Claim("EasyClaim", "EasyValues")
                   }));
             }
-
-            if (user.UserName == "NotMickeyMouse" &&
-                user.Password == "NotMickeyMouseIsBoss123")
+            UserManager manager = new UserManager();
+            if (manager.Login(user))
             {
                 return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
                   new Claim[] { }));
@@ -127,9 +128,5 @@ namespace RESTFul.Controllers
             return Task.FromResult<ClaimsIdentity>(null);
         }
     }
-    public class ApplicationUser
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
+ 
 }

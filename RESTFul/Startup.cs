@@ -36,7 +36,9 @@ namespace RESTFul
             services.AddCors(o => o.AddPolicy("Main", builder =>
             {
                 builder.WithOrigins("http://localhost:8080")
-                    .AllowAnyMethod();
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .AllowAnyHeader();
             }));
             // Add framework services.
             services.AddMvc(config =>
@@ -48,8 +50,8 @@ namespace RESTFul
             });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("DisneyUser",
-                                  policy => policy.RequireClaim("DisneyCharacter", "IAmMickey"));
+                options.AddPolicy("EasyNETUser",
+                                  policy => policy.RequireClaim("EasyClaim", "EasyValues"));
             });
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
@@ -69,6 +71,7 @@ namespace RESTFul
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseResponseCompression();
+            app.UseCors("Main");
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
@@ -88,14 +91,14 @@ namespace RESTFul
 
                 ClockSkew = TimeSpan.Zero
             };
-
+            
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });
-            app.UseCors("Main");
+            
             app.UseMvc();
             
         }

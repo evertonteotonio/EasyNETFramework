@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NLog;
+using System.Collections.Generic;
 
 namespace Data
 {
