@@ -10,6 +10,7 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import Router from './router'
 import VueResource from 'vue-resource'
+
 /* eslint-disable no-new */
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource)

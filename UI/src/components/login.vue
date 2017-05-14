@@ -1,44 +1,68 @@
 ﻿<template>
   <q-layout>
-    <div slot="header" class="toolbar">
-      <q-toolbar-title :padding="0">
-        EasyNETFramework - v0.1
-      </q-toolbar-title>
-    </div>
     <!--
       Replace following "div" with
       "<router-view class="layout-view">" component
       if using subRoutes
     -->
     <div class="layout-view">
+      <br/>
+      <div class="row">
+        <div class="width-1of3"></div>
+        <div class="width-1of3" style="text-align:center;">
+          <h5>Login</h5>
+          <input type="text" style="text-align:center;" name="userName" v-model="UserName" placeholder="Username" v-bind:class="{'has-error':!Validation.UserNameValid}" />
+          <br />
+          <input type="password" style="text-align:center;" name="password" v-model="Password" placeholder="Password" v-bind:class="{'has-error':!Validation.PasswordValid}" />
+          <br /><br />
+          <button class="primary big" @click="login()">Login</button>
+        </div>
+        <div class="width-1of3"></div>
+      </div>
       <br />
-      <h3>Login please to continue</h3>
-      <input type="text" name="userName" v-model="UserName" />
-      <input type="text" name="password" v-model="Password" />
-      <button class="button button-default" @click="login()">Click for API</button><br />
     </div>
   </q-layout>
 </template>
 <script>
+import { Toast } from 'quasar'
 export default {
   data () {
     return {
       UserName: '',
-      Password: ''
+      Password: '',
+      Validation: {
+        UserNameValid: true,
+        PasswordValid: true
+      }
     }
   },
   methods: {
     login: function () {
-      this.$http.post('jwt', {UserName: this.UserName, Password: this.Password}).then(response => {
-        // get body data
-        if (response.body.access_token == null && response.body === 'Invalid credentials') {
-          alert('no login can be made!')
-        }
-        console.log(response.body)
-      }, response => {
-        // error callback
-        alert('no login can be made!')
-      })
+      if (this.validateLogin()) {
+        this.$http.post('jwt', { UserName: this.UserName, Password: this.Password }).then(response => {
+          // get body data
+          console.log(response.body)
+          localStorage.setItem('token', response.body.access_token)
+          this.$router.push({ path: 'index' })
+        }, response => {
+          // error callback
+          Toast.create.negative({html: 'Sorry user cannot login', timeout: 2500})
+        })
+      }
+    },
+    validateLogin: function () {
+      let valid = true
+      this.Validation.UserNameValid = true
+      this.Validation.PasswordValid = true
+      if (this.UserName === '') {
+        this.Validation.UserNameValid = false
+        valid = false
+      }
+      if (this.Password === '') {
+        this.Validation.PasswordValid = false
+        valid = false
+      }
+      return valid
     }
   }
 }
