@@ -85,17 +85,17 @@ namespace Data
         }
 
         public List<Profile> FindAll(int page = 1,
-            int pageSize = 10,
-            string where = "",
+            int limit = 10,
+            string query = "",
             string orderBy = "")
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.GetListPaged<Profile>(page, pageSize, where, orderBy);
+                    var item = connection.GetListPaged<Profile>(page, limit, HandleQuery(query, "FullName"), HandleOrderBy(orderBy));
                     Logger.Trace($"Find All item count: {item.Count()}");
-                    return (List<Profile>) item;
+                    return (List<Profile>)item;
                 }
             }
             catch (Exception ex)
@@ -121,6 +121,23 @@ namespace Data
                 Logger.Error(ex, $"at:{this.GetType().Name}");
             }
             return -1;
+        }
+
+        public string HandleQuery(string query, string searchColumn)
+        {
+            if (!string.IsNullOrEmpty(query))
+            {
+                return $"where {searchColumn} like '%{query}%'";
+            }
+            return "";
+        }
+        public string HandleOrderBy(string orderColumn)
+        {
+            if (!string.IsNullOrEmpty(orderColumn))
+            {
+                return $"{orderColumn}";
+            }
+            return "";
         }
     }
 }

@@ -2,6 +2,7 @@
 using Data;
 using Entity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,12 +16,12 @@ namespace RESTFul.Controllers
         // GET: api/values
         [HttpGet]
         [Route("FindAll")]
-        public List<Profile> FindAll(int page = 1,
-            int pageSize = 10,
-            string where = "",
+        public object FindAll(int page = 1,
+            int limit = 10,
+            string query = "",
             string orderBy = "")
         {
-            return manager.FindAll(page, pageSize, where, orderBy);
+            return new { data = manager.FindAll(page, limit, query, orderBy), count = manager.Count() };
         }
 
         // GET api/values/5

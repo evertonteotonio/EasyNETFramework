@@ -10,26 +10,31 @@
           EasyNETFramework v0.1
         </q-toolbar-title>
         <!-- opens right-side drawer using its ref -->
-        <button class="hide-on-drawer-visible" @click="$refs.rightDrawer.open()">
+        <!--<button class="hide-on-drawer-visible" @click="$refs.rightDrawer.open()">
           <i>menu</i>
-        </button>
+        </button>-->
       </div>
       <!-- Navigation Tabs -->
-      <q-tabs slot="navigation">
-        <q-tab icon="mail" route="/Index/Dashboard" exact replace>Mails</q-tab>
+      <!--<q-tabs slot="navigation">
+        <q-tab icon="home" route="/Admin/Dashboard" exact replace>Home</q-tab>
         <q-tab icon="alarm" route="/layout/alarm" exact replace>Alarms</q-tab>
         <q-tab icon="help" route="/layout/help" exact replace>Help</q-tab>
-      </q-tabs>
+      </q-tabs>-->
       <!-- Left-side Drawer -->
       <q-drawer ref="leftDrawer">
         <div class="toolbar">
           <q-toolbar-title>
-            Drawer Title
+            Main Menu
           </q-toolbar-title>
         </div>
         <div class="list no-border platform-delimiter">
-          <q-drawer-link icon="mail" :to="{path: '/Index/Dashboard', exact: true}">
-            Link
+          <q-drawer-link icon="home" :to="{path: '/Admin/Dashboard', exact: true}">
+            Dashboard
+          </q-drawer-link>
+        </div>
+        <div class="list no-border platform-delimiter">
+          <q-drawer-link icon="account_box" :to="{path: '/Admin/Users', exact: true}">
+            Users
           </q-drawer-link>
         </div>
       </q-drawer>
@@ -47,8 +52,8 @@
       </span>
     </div>-->
       <!-- Right-side Drawer -->
-      <q-drawer ref="rightDrawer" right-side>
-      </q-drawer>
+      <!--<q-drawer ref="rightDrawer" right-side>
+      </q-drawer>-->
       <!-- Footer -->
       <div slot="footer" class="toolbar">
       </div>
@@ -72,18 +77,7 @@ export default {
 
   },
   methods: {
-    getData: function () {
-      this.$http.get('Profile/FindAll', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      }).then(response => {
-        // get body data
-        this.someData = response.body
-      }, response => {
-        // error callback
-      })
-    }
+
   }
 }
 </script>

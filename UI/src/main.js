@@ -10,11 +10,14 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import Router from './router'
 import VueResource from 'vue-resource'
+import { ServerTable } from 'vue-tables-2'
 
 /* eslint-disable no-new */
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource)
+Vue.http.headers.common['Authorization'] = 'Bearer ' + Quasar.SessionStorage.get.item('token')
 Vue.http.options.root = 'http://localhost:53161/api'
+Vue.use(ServerTable)
 Quasar.start(() => {
   new Vue({
     el: '#q-app',

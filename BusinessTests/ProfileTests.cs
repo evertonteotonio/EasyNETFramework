@@ -11,14 +11,17 @@ namespace BusinessTests
         public void Add()
         {
             ProfileManager manager = new ProfileManager();
-            var result = manager.Add(new Profile()
+            for (int index = 0; index < 15; index++)
             {
-                Email = "test@gmail.com",
-                FullName = "Amr Swalha",
-                Mobile = "555555",
-                Phone = "555555"
-            });
-            Assert.NotNull(result);
+                var result = manager.Add(new Profile()
+                {
+                    Email = "test@gmail.com",
+                    FullName = "Amr " + index,
+                    Mobile = "555555",
+                    Phone = "555555"
+                });
+                Assert.NotNull(result);
+            }
         }
         [Test]
         public void Update()

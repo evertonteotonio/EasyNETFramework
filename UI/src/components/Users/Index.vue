@@ -1,8 +1,9 @@
 ﻿<template>
   <div>
-    <h3>Dashboard main</h3>
+    <h3>Users</h3>
     <h5>Data from API</h5>
     <button class="default" v-on:click="getData()">get data</button>
+    <v-server-table url="Profile/FindAll" :columns="columns" ></v-server-table>
     <ul>
       <li v-for="item in someData">
         {{item.fullName}}
@@ -14,6 +15,7 @@
 export default {
   data () {
     return {
+      columns: ['id', 'fullName'],
       msg: 'test',
       someData: ''
     }

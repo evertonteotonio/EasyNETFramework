@@ -23,12 +23,16 @@ export default new VueRouter({
   routes: [
     { path: '/', component: load('login') }, // Default
     {
-      path: '/Index',
+      path: '/Admin',
       component: load('Index'),
       children: [
         {
           path: 'Dashboard',
           component: load('Dashboard/Index')
+        },
+        {
+          path: 'Users',
+          component: load('Users/Index')
         }
       ]
     }, // Default

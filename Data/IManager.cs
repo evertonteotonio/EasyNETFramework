@@ -14,8 +14,8 @@ namespace Data
         T Delete(T item);
         T FindById(int id);
         List<T> FindAll(int page = 1,
-            int pageSize = 10,
-            string where = "",
+            int limit = 10,
+            string query = "",
             string orderBy = "");
     }
 }

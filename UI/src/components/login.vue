@@ -24,7 +24,7 @@
   </q-layout>
 </template>
 <script>
-import { Toast } from 'quasar'
+import { Toast, SessionStorage } from 'quasar'
 export default {
   data () {
     return {
@@ -42,8 +42,8 @@ export default {
         this.$http.post('jwt', { UserName: this.UserName, Password: this.Password }).then(response => {
           // get body data
           console.log(response.body)
-          localStorage.setItem('token', response.body.access_token)
-          this.$router.push({ path: 'index' })
+          SessionStorage.set('token', response.body.access_token)
+          this.$router.push({ path: 'Admin/Dashboard' })
         }, response => {
           // error callback
           Toast.create.negative({html: 'Sorry user cannot login', timeout: 2500})
