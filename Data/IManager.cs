@@ -1,5 +1,5 @@
-﻿using NLog;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Entity;
 
 namespace Data
 {
@@ -13,9 +13,6 @@ namespace Data
         T Update(T item);
         T Delete(T item);
         T FindById(int id);
-        List<T> FindAll(int page = 1,
-            int limit = 10,
-            string query = "",
-            string orderBy = "");
+        List<T> FindAll(Search search);
     }
 }

@@ -9,15 +9,23 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 import Vue from 'vue'
 import Quasar from 'quasar'
 import Router from './router'
+import Store from './store'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
 import { ServerTable } from 'vue-tables-2'
 
 /* eslint-disable no-new */
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource)
-Vue.http.headers.common['Authorization'] = 'Bearer ' + Quasar.SessionStorage.get.item('token')
+Vue.use(Vuex)
+// Vue.http.headers.common['Authorization'] = 'Bearer ' + Store.getters.getAccessToken
 Vue.http.options.root = 'http://localhost:53161/api'
 Vue.use(ServerTable)
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('Authorization', 'Bearer ' + Store.getters.getAccessToken)
+  request.headers.set('Accept', 'application/json')
+  next()
+})
 Quasar.start(() => {
   new Vue({
     el: '#q-app',

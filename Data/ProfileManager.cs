@@ -84,16 +84,13 @@ namespace Data
             return null;
         }
 
-        public List<Profile> FindAll(int page = 1,
-            int limit = 10,
-            string query = "",
-            string orderBy = "")
+        public List<Profile> FindAll(Search search)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.GetListPaged<Profile>(page, limit, HandleQuery(query, "FullName"), HandleOrderBy(orderBy));
+                    var item = connection.GetListPaged<Profile>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
                     Logger.Trace($"Find All item count: {item.Count()}");
                     return (List<Profile>)item;
                 }

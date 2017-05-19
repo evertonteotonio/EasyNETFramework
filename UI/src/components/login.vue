@@ -24,7 +24,9 @@
   </q-layout>
 </template>
 <script>
-import { Toast, SessionStorage } from 'quasar'
+import Toast from 'quasar'
+import Store from '../store'
+
 export default {
   data () {
     return {
@@ -42,7 +44,7 @@ export default {
         this.$http.post('jwt', { UserName: this.UserName, Password: this.Password }).then(response => {
           // get body data
           console.log(response.body)
-          SessionStorage.set('token', response.body.access_token)
+          Store.commit('increment', response.body.access_token)
           this.$router.push({ path: 'Admin/Dashboard' })
         }, response => {
           // error callback

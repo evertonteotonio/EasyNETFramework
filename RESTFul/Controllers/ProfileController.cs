@@ -16,12 +16,9 @@ namespace RESTFul.Controllers
         // GET: api/values
         [HttpGet]
         [Route("FindAll")]
-        public object FindAll(int page = 1,
-            int limit = 10,
-            string query = "",
-            string orderBy = "")
+        public object FindAll(Search search)
         {
-            return new { data = manager.FindAll(page, limit, query, orderBy), count = manager.Count() };
+            return new { data = manager.FindAll(search), count = manager.Count() };
         }
 
         // GET api/values/5

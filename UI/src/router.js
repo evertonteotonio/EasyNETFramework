@@ -1,6 +1,6 @@
 ﻿import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+// import SessionStorage from 'quasar'
 Vue.use(VueRouter)
 
 function load (component) {
@@ -19,7 +19,6 @@ export default new VueRouter({
    * If switching back to default "hash" mode, don't forget to set the
    * build publicPath back to '' so Cordova builds work again.
    */
-
   routes: [
     { path: '/', component: load('login') }, // Default
     {

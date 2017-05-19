@@ -33,7 +33,7 @@ namespace Data
             throw new NotImplementedException();
         }
 
-        public List<User> FindAll(int page = 1, int pageSize = 10, string where = "", string orderBy = "")
+        public List<User> FindAll(Search search)
         {
             throw new NotImplementedException();
         }
