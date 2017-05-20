@@ -1,13 +1,15 @@
 ﻿import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import SessionStorage from 'quasar'
+import Store from './store'
+import Vuex from 'vuex'
 Vue.use(VueRouter)
+Vue.use(Vuex)
 
 function load (component) {
   return () => System.import(`components/${component}.vue`)
 }
 
-export default new VueRouter({
+const router = new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
    * it is only to be used only for websites.
@@ -38,3 +40,12 @@ export default new VueRouter({
     { path: '*', component: load('Error404') } // Not found
   ]
 })
+router.beforeEach((to, from, next) => {
+  if (Store.getters.getAccessToken === '' && to.path !== '/') {
+    router.push({ path: '/' })
+  }
+  else {
+    next()
+  }
+})
+export default router

@@ -11,6 +11,7 @@ import Quasar from 'quasar'
 import Router from './router'
 import Store from './store'
 import VueResource from 'vue-resource'
+// import VueResourceNProgress from 'vue-resource-nprogress'
 import Vuex from 'vuex'
 import { ServerTable } from 'vue-tables-2'
 
@@ -18,13 +19,18 @@ import { ServerTable } from 'vue-tables-2'
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource)
 Vue.use(Vuex)
+// Vue.use(VueResourceNProgress)
 // Vue.http.headers.common['Authorization'] = 'Bearer ' + Store.getters.getAccessToken
 Vue.http.options.root = 'http://localhost:53161/api'
 Vue.use(ServerTable)
 Vue.http.interceptors.push((request, next) => {
   request.headers.set('Authorization', 'Bearer ' + Store.getters.getAccessToken)
   request.headers.set('Accept', 'application/json')
-  next()
+  next(function (response) {
+    if (response.statusText === 'Unauthorized') {
+      Router.push({ path: '/' })
+    }
+  })
 })
 Quasar.start(() => {
   new Vue({
