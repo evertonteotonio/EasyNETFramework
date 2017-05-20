@@ -10,9 +10,12 @@
           EasyNETFramework v0.1
         </q-toolbar-title>
         <!-- opens right-side drawer using its ref -->
-        <!--<button class="hide-on-drawer-visible" @click="$refs.rightDrawer.open()">
-          <i>menu</i>
-        </button>-->
+        <button v-on:click="Logout()">
+          <i>cancel</i>
+          <q-tooltip>
+            logout
+          </q-tooltip>
+        </button>
       </div>
       <!-- Navigation Tabs -->
       <!--<q-tabs slot="navigation">
@@ -66,6 +69,8 @@
   </q-layout>
 </template>
 <script>
+import Store from '../store'
+
 export default {
   data () {
     return {
@@ -77,7 +82,10 @@ export default {
 
   },
   methods: {
-
+    Logout: function () {
+      Store.commit('increment', '')
+      this.$router.push({ path: '/' })
+    }
   }
 }
 </script>

@@ -43,5 +43,11 @@ namespace RESTFul.Controllers
         public void Delete(int id)
         {
         }
+        [Route("Count")]
+        [HttpGet]
+        public int Count(string where = "")
+        {
+            return manager.Count(where);
+        }
     }
 }

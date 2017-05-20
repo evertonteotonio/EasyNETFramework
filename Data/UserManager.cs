@@ -65,5 +65,22 @@ namespace Data
             }
             return false;
         }
+        public int Count(string where = "")
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
+                {
+                    var count = connection.RecordCount<User>(where);
+                    Logger.Trace($"Find All item count: {count}");
+                    return count;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"at:{this.GetType().Name}");
+            }
+            return -1;
+        }
     }
 }

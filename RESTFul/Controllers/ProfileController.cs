@@ -34,7 +34,7 @@ namespace RESTFul.Controllers
         {
             return manager.Add(profile);
         }
-
+        [HttpPut]
         // PUT api/values
         public Profile Put(Profile profile)
         {
