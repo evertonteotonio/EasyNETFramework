@@ -1,8 +1,7 @@
 ﻿<template>
   <div>
-    <h3>Users</h3>
-    <h5>Data from API</h5>
-    <button class="default" v-on:click="getData()">get data</button>
+    <h3 v-on:click="$refs.newUserModal.open()">Users</h3>
+    <button v-on:click=""></button>
     <q-data-table :data="dataTable"
                   :config="config"
                   :columns="columns">
@@ -12,11 +11,7 @@
       </template>
       <!-- Custom renderer for "source" column -->
       <template slot="col-source" scope="cell">
-        <span v-if="cell.data === 'Audit'" class="label text-white bg-primary">
-          Audit
-          <q-tooltip>Some data</q-tooltip>
-        </span>
-        <span v-else class="label text-white bg-negative">{{cell.data}}</span>
+        <span class="label text-white bg-negative">{{cell.data}}</span>
       </template>
       <!-- Custom renderer when user selected one or more rows -->
       <template slot="selection" scope="selection">
@@ -28,12 +23,64 @@
         </button>
       </template>
     </q-data-table>
+    <q-modal ref="newUserModal" :content-css="{minWidth: '40vw', minHeight: '60vh'}">
+      <q-layout>
+        <div slot="header" class="toolbar">
+          <button @click="$refs.newUserModal.close()">
+            <i>keyboard_arrow_left</i>
+          </button>
+          <q-toolbar-title :padding="1">
+            Add new user
+          </q-toolbar-title>
+        </div>
+        <div class="layout-view">
+          <div class="layout-padding">
+            <div class="row">
+              <div><input v-model="UserName" placeholder="Username" v-bind:class="{'has-error':!Validation.UserNameValid}"></div>
+            </div>
+            <div class="row">
+              <div><input type="password" v-model="Password" placeholder="Password" v-bind:class="{'has-error':!Validation.PasswordValid}"></div>
+            </div>
+            <div class="row">
+              <div><input v-model="FullName" placeholder="Full Name" v-bind:class="{'has-error':!Validation.FullNameValid}"></div>
+            </div>
+            <div class="row">
+              <div><input v-model="Email" placeholder="Email" v-bind:class="{'has-error':!Validation.EmailValid}"></div>
+            </div>
+            <div class="row">
+              <div><input v-model="Phone" placeholder="Phone" v-bind:class="{'has-error':!Validation.PhoneValid}"></div>
+            </div>
+            <div class="row">
+              <div><input v-model="Mobile" placeholder="Mobile" v-bind:class="{'has-error':!Validation.MobileValid}"></div>
+            </div>
+            <button class="primary" @click="addNewUser()">Save</button>
+            <button class="secondary" @click="$refs.newUserModal.close()">Close</button>
+            
+          </div>
+        </div>
+      </q-layout>
+    </q-modal>
   </div>
 </template>
 <script>
+import { Dialog } from 'quasar'
 export default {
   data () {
     return {
+      UserName: '',
+      Password: '',
+      FullName: '',
+      Email: '',
+      Phone: '',
+      Mobile: '',
+      Validation: {
+        UserNameValid: true,
+        PasswordValid: true,
+        FullNameValid: true,
+        EmailValid: true,
+        PhoneValid: true,
+        MobileValid: true
+      },
       msg: 'test',
       dataTable: '',
       columns: [
@@ -102,7 +149,7 @@ export default {
         labels: {
           columns: 'columns',
           allCols: 'Every Cols',
-          rows: 'Rooows',
+          rows: 'Rows',
           selected: {
             singular: 'item selected.',
             plural: 'items selected.'
@@ -125,7 +172,47 @@ export default {
       }, response => {
         // error callback
       })
+    },
+    validateNewUser: function () {
+      let valid = true
+      this.Validation.UserNameValid = true
+      this.Validation.PasswordValid = true
+      if (this.UserName.trim() === '') {
+        this.Validation.UserNameValid = false
+        valid = false
+      }
+      if (this.Password.trim() === '') {
+        this.Validation.PasswordValid = false
+        valid = false
+      }
+      return valid
+    },
+    addNewUser: function () {
+      if (this.validateNewUser()) {
+        this.$http.post('Profile', { FullName: this.FullName, Email: this.Email, Phone: this.Phone, Mobile: this.Mobile }).then(response => {
+          console.log(response.body.Id)
+          this.$http.post('User', { UserName: this.UserName, Password: this.Password, ProfileId: response.body.Id }).then(responseUser => {
+            this.$refs.newUserModal.close()
+            Dialog.create({
+              title: 'Success',
+              message: 'User created successfully',
+              buttons: [
+                {
+                  label: 'Ok'
+                }
+              ]
+            })
+          })
+        },
+        response => {
+          console.log(response.status)
+          return response.json()
+        })
+      }
     }
+  },
+  created () {
+    this.getData()
   }
 }
 </script>

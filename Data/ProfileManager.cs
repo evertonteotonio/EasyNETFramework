@@ -20,6 +20,7 @@ namespace Data
                 {
                     var insert = connection.Insert(item);
                     Logger.Trace($"Added item Id: {insert?.ToString() ?? "error"}");
+                    item.Id = insert.HasValue ? insert.Value : -1;
                     if (insert != null) return item;
                 }
             }

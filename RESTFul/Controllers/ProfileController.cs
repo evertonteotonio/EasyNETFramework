@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Data;
+﻿using Data;
 using Entity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,20 +28,20 @@ namespace RESTFul.Controllers
 
         // POST api/values
         [HttpPost]
-        public Profile Post(Profile profile)
+        public Profile Post([FromBody]Profile profile)
         {
             return manager.Add(profile);
         }
         [HttpPut]
         // PUT api/values
-        public Profile Put(Profile profile)
+        public Profile Put([FromBody]Profile profile)
         {
             return manager.Update(profile);
         }
 
         // DELETE api/values
         [HttpDelete]
-        public Profile Delete(Profile profile)
+        public Profile Delete([FromBody]Profile profile)
         {
             return manager.Delete(profile);
         }

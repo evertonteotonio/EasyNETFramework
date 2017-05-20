@@ -26,7 +26,7 @@ namespace RESTFul.Controllers
 
         // POST api/values
         [HttpPost]
-        public User Post(User user)
+        public User Post([FromBody]User user)
         {
             user.Password = user.sha256(user.Password);
             return manager.Add(user);
