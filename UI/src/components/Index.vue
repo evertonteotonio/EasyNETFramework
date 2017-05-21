@@ -10,6 +10,7 @@
           EasyNETFramework v0.1
         </q-toolbar-title>
         <!-- opens right-side drawer using its ref -->
+        Hello, {{userName}}
         <button v-on:click="Logout()">
           <i>cancel</i>
           <q-tooltip>
@@ -38,6 +39,11 @@
         <div class="list no-border platform-delimiter">
           <q-drawer-link icon="account_box" :to="{path: '/Admin/Users', exact: true}">
             Users
+          </q-drawer-link>
+        </div>
+        <div class="list no-border platform-delimiter">
+          <q-drawer-link icon="store" :to="{path: '/Admin/Stock', exact: true}">
+            Stock Management
           </q-drawer-link>
         </div>
       </q-drawer>
@@ -75,7 +81,8 @@ export default {
   data () {
     return {
       msg: 'test',
-      someData: ''
+      someData: '',
+      userName: ''
     }
   },
   computed: {
@@ -86,6 +93,9 @@ export default {
       Store.commit('increment', '')
       this.$router.push({ path: '/' })
     }
+  },
+  created () {
+    this.userName = Store.getters.getUserInfo.userName
   }
 }
 </script>

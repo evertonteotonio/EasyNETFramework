@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Entity;
-using Entity.NotMapped;
 using Dapper;
+using Entity.NotMapped;
+using Entity.Stock;
 using NLog;
 
-namespace Data
+namespace Data.Stock
 {
-    public class ProfileManager : IManager<Profile>
+    public class ItemManager : IManager<Item>
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public Profile Add(Profile item)
+        public Item Add(Item item)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Data
                 {
                     var insert = connection.Insert(item);
                     Logger.Trace($"Added item Id: {insert?.ToString() ?? "error"}");
-                    item.Id = insert.HasValue ? insert.Value : -1;
+                    item.Id = insert ?? -1;
                     if (insert != null) return item;
                 }
             }
@@ -32,7 +32,7 @@ namespace Data
             return null;
         }
 
-        public Profile Update(Profile item)
+        public Item Update(Item item)
         {
             try
             {
@@ -50,13 +50,14 @@ namespace Data
             return null;
         }
 
-        public Profile Delete(Profile item)
+        public Item Delete(Item item)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var result = connection.Delete<Profile>(item);
+                    item.IsDeleted = true;
+                    var result = connection.Update(item);
                     Logger.Trace($"Delete item by Id: {result}");
                     return item;
                 }
@@ -68,13 +69,13 @@ namespace Data
             return null;
         }
 
-        public Profile FindById(int id)
+        public Item FindById(int id)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.Get<Profile>(id);
+                    var item = connection.Get<Item>(id);
                     Logger.Trace($"Find item by Id: {item.Id}");
                     return item;
                 }
@@ -86,15 +87,15 @@ namespace Data
             return null;
         }
 
-        public List<Profile> FindAll(Search search)
+        public List<Item> FindAll(Search search)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.GetListPaged<Profile>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
+                    var item = connection.GetListPaged<Item>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
                     Logger.Trace($"Find All item count: {item.Count()}");
-                    return (List<Profile>)item;
+                    return (List<Item>)item;
                 }
             }
             catch (Exception ex)
@@ -110,7 +111,7 @@ namespace Data
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var count = connection.RecordCount<Profile>(where);
+                    var count = connection.RecordCount<Item>(where);
                     Logger.Trace($"Find All item count: {count}");
                     return count;
                 }

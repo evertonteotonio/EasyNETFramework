@@ -1,11 +1,11 @@
 ﻿<template>
   <div>
-    <h3>Dashboard</h3>
+    <h3>Stock</h3>
     <div class="row text-center">
       <div class="width-2of3">
         <div class="card">
           <div v-on:click="UserToast()" class="card-title bg-primary text-white">
-            Total Users
+            Total Items
           </div>
           <div class="card-content card-force-top-padding">
             {{userCount}}
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     userCountAPI: function () {
-      this.$http.get('User/Count').then(response => {
+      this.$http.get('Item/Count').then(response => {
         // get body data
         this.userCount = response.body
       }, response => {
@@ -56,7 +56,7 @@ export default {
       })
     },
     UserToast: function () {
-      Toast.create('Total no. of users in the system')
+      Toast.create('Total no. of items')
     },
     InvoiceToast: function () {
       Toast.create('Total no. of Invoices in the system')

@@ -47,9 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Address.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Search.cs" />
+    <Compile Include="NotMapped\Search.cs" />
+    <Compile Include="Stock\Item.cs" />
+    <Compile Include="Stock\Warehouse.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

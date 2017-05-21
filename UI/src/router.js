@@ -34,6 +34,10 @@ const router = new VueRouter({
         {
           path: 'Users',
           component: load('Users/Index')
+        },
+        {
+          path: 'Stock',
+          component: load('Stock/Index')
         }
       ]
     }, // Default

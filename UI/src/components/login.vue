@@ -45,6 +45,10 @@ export default {
           // get body data
           console.log(response.body)
           Store.commit('increment', response.body.access_token)
+          this.$http.get('user/FindbyName/' + this.UserName).then(responseUser => {
+            console.log(responseUser.body)
+            Store.commit('userData', responseUser.body)
+          })
           this.$router.push({ path: 'Admin/Dashboard' })
         }, response => {
           // error callback

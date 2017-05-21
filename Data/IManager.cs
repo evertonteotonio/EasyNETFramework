@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Entity;
+using Entity.NotMapped;
 
 namespace Data
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Entity;
+using Entity.NotMapped;
 using Dapper;
 using NLog;
 
@@ -40,7 +41,37 @@ namespace Data
 
         public User FindById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
+                {
+                    var item = connection.Get<User>(id);
+                    Logger.Trace($"Find item by Id: {item.Id}");
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"at:{this.GetType().Name}");
+            }
+            return null;
+        }
+        public User FindByUserName(string userName)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
+                {
+                    var item = connection.QueryFirst<User>($"SELECT Id,UserName,ProfileId FROM [User] WHERE Username='{userName}'");
+                    Logger.Trace($"Find item by Id: {item.Id}");
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"at:{this.GetType().Name}");
+            }
+            return null;
         }
 
         public User Update(User item)

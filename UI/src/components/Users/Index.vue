@@ -41,6 +41,24 @@
             <div class="row">
               <div><input type="password" v-model="Password" placeholder="Password" v-bind:class="{'has-error':!Validation.PasswordValid}"></div>
             </div>
+            <button class="primary" @click="addNewUser()">Save</button>
+            <button class="secondary" @click="$refs.newUserModal.close()">Close</button>
+          </div>
+        </div>
+      </q-layout>
+    </q-modal>
+    <q-modal ref="newProfileModal" :content-css="{minWidth: '40vw', minHeight: '60vh'}">
+      <q-layout>
+        <div slot="header" class="toolbar">
+          <button @click="$refs.newProfileModal.close()">
+            <i>keyboard_arrow_left</i>
+          </button>
+          <q-toolbar-title :padding="1">
+            Add new user
+          </q-toolbar-title>
+        </div>
+        <div class="layout-view">
+          <div class="layout-padding">
             <div class="row">
               <div><input v-model="FullName" placeholder="Full Name" v-bind:class="{'has-error':!Validation.FullNameValid}"></div>
             </div>
@@ -54,8 +72,7 @@
               <div><input v-model="Mobile" placeholder="Mobile" v-bind:class="{'has-error':!Validation.MobileValid}"></div>
             </div>
             <button class="primary" @click="addNewUser()">Save</button>
-            <button class="secondary" @click="$refs.newUserModal.close()">Close</button>
-            
+            <button class="secondary" @click="$refs.newProfileModal.close()">Close</button>
           </div>
         </div>
       </q-layout>
@@ -189,26 +206,24 @@ export default {
     },
     addNewUser: function () {
       if (this.validateNewUser()) {
-        this.$http.post('Profile', { FullName: this.FullName, Email: this.Email, Phone: this.Phone, Mobile: this.Mobile }).then(response => {
-          console.log(response.body.Id)
-          this.$http.post('User', { UserName: this.UserName, Password: this.Password, ProfileId: response.body.Id }).then(responseUser => {
-            this.$refs.newUserModal.close()
-            Dialog.create({
-              title: 'Success',
-              message: 'User created successfully',
-              buttons: [
-                {
-                  label: 'Ok'
-                }
-              ]
-            })
+        this.$http.post('User', { UserName: this.UserName, Password: this.Password }).then(responseUser => {
+          this.$refs.newUserModal.close()
+          Dialog.create({
+            title: 'Success',
+            message: 'User created successfully',
+            buttons: [
+              {
+                label: 'Ok'
+              }
+            ]
           })
-        },
-        response => {
-          console.log(response.status)
-          return response.json()
         })
       }
+    },
+    editUseProfile: function (item) {
+      this.$http.post('Profile', { FullName: this.FullName, Email: this.Email, Phone: this.Phone, Mobile: this.Mobile }).then(response => {
+
+      })
     }
   },
   created () {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Data;
 using Entity;
+using Entity.NotMapped;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFul.Controllers
@@ -22,6 +23,11 @@ namespace RESTFul.Controllers
         public string Get(int id)
         {
             return "value";
+        }
+        [HttpGet("FindbyName/{UserName}")]
+        public User GetByUserName([FromRoute]string UserName)
+        {
+            return manager.FindByUserName(UserName);
         }
 
         // POST api/values

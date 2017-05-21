@@ -1,5 +1,6 @@
 ﻿using Data;
 using Entity;
+using Entity.NotMapped;
 using NUnit.Framework;
 
 namespace BusinessTests
@@ -58,7 +59,7 @@ namespace BusinessTests
         public void FindAll()
         {
             ProfileManager manager = new ProfileManager();
-            var result = manager.FindAll(1, 5, "", "Id desc");
+            var result = manager.FindAll(new Search());
             Assert.Greater(result.Count, 0);
             Assert.NotNull(result);
         }
