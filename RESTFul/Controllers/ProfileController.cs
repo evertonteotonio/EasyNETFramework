@@ -1,8 +1,9 @@
 ﻿using Data;
 using Entity;
 using Entity.NotMapped;
+using LazyCache;
 using Microsoft.AspNetCore.Mvc;
-using RESTFul.CacheManager;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,20 +13,19 @@ namespace RESTFul.Controllers
     [Route("api/[controller]")]
     public class ProfileController : Controller
     {
+
         ProfileManager manager = new ProfileManager();
         // GET: api/values
         [HttpGet]
         [Route("FindAll")]
         public object FindAll(Search search)
         {
+            IAppCache cache = new CachingService();
             string cacheName = $"Profile-{search.page}-{search.limit}-{search.query}-{search.orderBy}";
-            var cached = CacheDataManager<object>.GetItem(cacheName);
-            if (cached == null)
-            {
-                cached = new {data = manager.FindAll(search), count = manager.Count()};
-                CacheDataManager<object>.AddItem(cacheName, cached); 
-            }
-            return cached;
+            var products = cache.GetOrAdd(cacheName,
+                () => new { data = manager.FindAll(search), count = manager.Count() },
+                DateTimeOffset.Now.AddMinutes(5));
+            return products;
         }
 
         // GET api/values/5

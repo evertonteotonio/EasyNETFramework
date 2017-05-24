@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
     <h3 v-on:click="$refs.newUserModal.open()">Users</h3>
-    <button v-on:click=""></button>
+    <button v-on:click="getData()">test</button>
     <q-data-table :data="dataTable"
                   :config="config"
                   :columns="columns">

@@ -24,6 +24,7 @@ namespace Data
             {
                 var insert = connection.Insert(item);
                 Logger.Trace($"Added item Id: {insert?.ToString() ?? "error"}");
+                CacheManagement<T>.AddGetItem(GetType().Name + "-" + insert, item);
                 //item.Id = insert ?? -1;
                 if (insert != null) return item;
             }
@@ -69,12 +70,17 @@ namespace Data
         {
             try
             {
-                using (connection)
+                var data = CacheManagement<T>.GetItem(GetType().Name + "-" + id);
+                if (data == null)
                 {
-                    var item = connection.Get<T>(id);
-                    //Logger.Trace($"Find item by Id: {item.Id}");
-                    return item;
+                    using (connection)
+                    {
+                        var item = connection.Get<T>(id);
+                        //Logger.Trace($"Find item by Id: {item.Id}");
+                        return CacheManagement<T>.AddGetItem(GetType().Name + "-" + id, item);
+                    }
                 }
+                return data;
             }
             catch (Exception ex)
             {

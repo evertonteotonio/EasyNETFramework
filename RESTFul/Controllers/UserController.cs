@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Data;
 using Entity;
 using Entity.NotMapped;
-using RESTFul.CacheManager;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,7 +30,11 @@ namespace RESTFul.Controllers
         {
             return manager.FindByUserName(UserName);
         }
-
+        [HttpGet("FindbyId/{Id}")]
+        public User GetById([FromRoute]int Id)
+        {
+            return manager.FindById(Id);
+        }
         // POST api/values
         [HttpPost]
         public User Post([FromBody]User user)
@@ -56,13 +59,7 @@ namespace RESTFul.Controllers
         public int Count(string where = "")
         {
             string cnt = $"user-cnt-{where}";
-            var data = CacheDataManager<object>.GetItem(cnt);
-            if (data == null)
-            {
-                data = manager.Count(where);
-                CacheDataManager<object>.AddItem(cnt, manager.Count(where));
-            }
-            return int.Parse(data.ToString());
+            return manager.Count(where);
         }
     }
 }
