@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneralManager.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="ProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

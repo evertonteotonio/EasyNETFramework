@@ -49,7 +49,9 @@ namespace RESTFul.Controllers
         [HttpGet]
         public int Count(string where = "")
         {
+            where = where != "" ? "where " + where : "";
             return _manager.Count(where);
         }
+        
     }
 }

@@ -8,7 +8,7 @@
             Total Items
           </div>
           <div class="card-content card-force-top-padding">
-            {{userCount}}
+            {{itemCount}}
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
             Total Invoices
           </div>
           <div class="card-content card-force-top-padding">
-            {{userCount}}
+            {{itemAvailable}}
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
             Total Payments
           </div>
           <div class="card-content card-force-top-padding">
-            {{userCount}}
+            {{itemOut}}
           </div>
         </div>
       </div>
@@ -40,7 +40,9 @@ import { Toast } from 'quasar'
 export default {
   data () {
     return {
-      userCount: 0
+      itemCount: 0,
+      itemAvailable: 0,
+      itemOut: 0
     }
   },
   computed: {
@@ -50,13 +52,22 @@ export default {
     userCountAPI: function () {
       this.$http.get('Item/Count').then(response => {
         // get body data
-        this.userCount = response.body
+        this.itemCount = response.body
+      }, response => {
+        // error callback
+      })
+    },
+    AvailableCountAPI: function () {
+      this.$http.get('Item/Count').then(response => {
+        // get body data
+        this.itemAvailable = response.body
       }, response => {
         // error callback
       })
     },
     UserToast: function () {
       Toast.create('Total no. of items')
+      this.userCountAPI()
     },
     InvoiceToast: function () {
       Toast.create('Total no. of Invoices in the system')

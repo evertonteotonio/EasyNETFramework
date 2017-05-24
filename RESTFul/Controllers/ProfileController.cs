@@ -2,6 +2,7 @@
 using Entity;
 using Entity.NotMapped;
 using Microsoft.AspNetCore.Mvc;
+using RESTFul.CacheManager;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +18,14 @@ namespace RESTFul.Controllers
         [Route("FindAll")]
         public object FindAll(Search search)
         {
-            return new { data = manager.FindAll(search), count = manager.Count() };
+            string cacheName = $"Profile-{search.page}-{search.limit}-{search.query}-{search.orderBy}";
+            var cached = CacheDataManager<object>.GetItem(cacheName);
+            if (cached == null)
+            {
+                cached = new {data = manager.FindAll(search), count = manager.Count()};
+                CacheDataManager<object>.AddItem(cacheName, cached); 
+            }
+            return cached;
         }
 
         // GET api/values/5
