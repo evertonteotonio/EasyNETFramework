@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using Data;
+using Microsoft.AspNetCore.Mvc;
 using Entity;
-using Entity.NotMapped;
+using RESTFul.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTFul.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         UserManager manager = new UserManager();
         // GET: api/values
         //[JwtAuthentication]
         public IEnumerable<string> Get()
-        {
+        { 
             return new string[] { "value1", "value2" };
         }
 
@@ -54,11 +54,11 @@ namespace RESTFul.Controllers
         public void Delete(int id)
         {
         }
+        [Log]
         [Route("Count")]
         [HttpGet]
         public int Count(string where = "")
         {
-            string cnt = $"user-cnt-{where}";
             return manager.Count(where);
         }
     }

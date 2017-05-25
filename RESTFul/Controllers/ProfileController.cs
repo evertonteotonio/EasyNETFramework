@@ -4,6 +4,7 @@ using Entity.NotMapped;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using RESTFul.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,9 +12,8 @@ namespace RESTFul.Controllers
 {
     //[EnableCors("Main")]
     [Route("api/[controller]")]
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
-
         ProfileManager manager = new ProfileManager();
         // GET: api/values
         [HttpGet]
@@ -54,6 +54,7 @@ namespace RESTFul.Controllers
         {
             return manager.Delete(profile);
         }
+        [Log]
         [Route("Count")]
         [HttpGet]
         public int Count(string where = "")

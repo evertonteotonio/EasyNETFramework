@@ -10,6 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RESTFul.Helpers;
 using System;
+using Autofac.Extras.NLog;
+using Microsoft.AspNetCore.Http;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 namespace RESTFul
 {
@@ -25,6 +29,7 @@ namespace RESTFul
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            env.ConfigureNLog("nlog.config");
             Configuration = builder.Build();
         }
 
@@ -64,6 +69,7 @@ namespace RESTFul
             });
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddMemoryCache();
         }
 
@@ -98,7 +104,8 @@ namespace RESTFul
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });
-            
+            loggerFactory.AddNLog();
+            app.AddNLogWeb();
             app.UseMvc();
             
         }

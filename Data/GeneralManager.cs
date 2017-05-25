@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
+using Common;
 using Dapper;
 using Entity.NotMapped;
 using NLog;
@@ -11,26 +11,27 @@ namespace Data
 {
     public class GeneralManager<T>
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static SqlConnection connection;
+        private static SqlConnection _connection;
         public GeneralManager()
         {
-            connection = new SqlConnection(Common.Data.ConnectionString);
-            connection.Open();
+            _connection = new SqlConnection(Common.Data.ConnectionString);
+            LogHandler.Info($"Connection open to database, db:{_connection.Database}");
+            _connection.Open();
         }
         public T Add(T item)
         {
             try
             {
-                var insert = connection.Insert(item);
-                Logger.Trace($"Added item Id: {insert?.ToString() ?? "error"}");
+                LogHandler.Trace($"Beginning Add at: {GetType().Name}");
+                var insert = _connection.Insert(item);
+                LogHandler.Trace($"Success Add at: {GetType().Name} - Added item Id: {insert?.ToString() ?? "error"}",item);
                 CacheManagement<T>.AddGetItem(GetType().Name + "-" + insert, item);
                 //item.Id = insert ?? -1;
                 if (insert != null) return item;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
             return default(T);
         }
@@ -39,13 +40,21 @@ namespace Data
         {
             try
             {
-                var insert = connection.Update(item);
-                Logger.Trace($"Added item Id: {insert}");
+                LogHandler.Trace($"Beginning Update at: {GetType().Name}");
+                _connection.Update(item);
+                var propertyInfo = item.GetType().GetProperty("Id");
+                if (propertyInfo != null)
+                {
+                    CacheManagement<T>.Remove(GetType().Name + "-" + propertyInfo.GetValue(item));
+                    CacheManagement<T>.AddGetItem(GetType().Name + "-" + propertyInfo.GetValue(item),
+                        item);
+                    LogHandler.Trace($"{GetType().Name} - Updated item Id: {propertyInfo.GetValue(item)}");
+                }
                 return item;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
             return default(T);
         }
@@ -54,55 +63,59 @@ namespace Data
         {
             try
             {
+                LogHandler.Trace($"Beginning Delete at: {GetType().Name}");
+                var propertyInfo = item.GetType().GetProperty("Id");
+                if (propertyInfo != null)
+                {
+                    CacheManagement<T>.Remove(GetType().Name + "-" + propertyInfo.GetValue(item));
+                }
                 //item.IsDeleted = true;
-                var result = connection.Update(item);
-                Logger.Trace($"Delete item by Id: {result}");
+                var result = _connection.Update(item);
+                LogHandler.Trace($"{GetType().Name} - Delete item by Id: {result}");
                 return item;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
-            return default(T); 
+            return default(T);
         }
 
         public T FindById(int id)
         {
             try
             {
+                LogHandler.Trace($"Beginning find by id at: {GetType().Name}");
                 var data = CacheManagement<T>.GetItem(GetType().Name + "-" + id);
-                if (data == null)
+                if (data != null) return data;
+                using (_connection)
                 {
-                    using (connection)
-                    {
-                        var item = connection.Get<T>(id);
-                        //Logger.Trace($"Find item by Id: {item.Id}");
-                        return CacheManagement<T>.AddGetItem(GetType().Name + "-" + id, item);
-                    }
+                    var item = _connection.Get<T>(id);
+                    LogHandler.Trace($"{GetType().Name} - Find item by Id: {id}");
+                    return CacheManagement<T>.AddGetItem(GetType().Name + "-" + id, item);
                 }
-                return data;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
-            return  default(T); ;
+            return  default(T);
         }
 
         public List<T> FindAll(Search search)
         {
             try
             {
-                using (connection)
+                using (_connection)
                 {
-                    var item = connection.GetListPaged<T>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
-                    Logger.Trace($"Find All item count: {item.Count()}");
+                    var item = _connection.GetListPaged<T>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
+                    LogHandler.Trace($"{GetType().Name} - Find All item count: {item.Count()}");
                     return (List<T>)item;
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
             return null;
         }
@@ -111,59 +124,50 @@ namespace Data
         {
             try
             {
-                Stopwatch watch = new Stopwatch();
-                watch.Start();
-                var count = connection.RecordCount<T>(where);
-                Logger.Trace($"Find All item count: {count}");
-                watch.Stop();
+                LogHandler.Trace($"Beginning {GetType().Name} Find item count");
+                var count = _connection.RecordCount<T>(where);
+                LogHandler.Trace($"Ending {GetType().Name} Find item count: {count}");
                 return count;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
             return -1;
         }
 
         public string HandleQuery(string query, string searchColumn)
         {
-            if (!string.IsNullOrEmpty(query))
-            {
-                return $"where {searchColumn} like '%{query}%'";
-            }
-            return "";
+            return !string.IsNullOrEmpty(query) ? $"where {searchColumn} like '%{query}%'" : "";
         }
         public string HandleOrderBy(string orderColumn)
         {
-            if (!string.IsNullOrEmpty(orderColumn))
-            {
-                return $"{orderColumn}";
-            }
-            return "";
+            return !string.IsNullOrEmpty(orderColumn) ? $"{orderColumn}" : "";
         }
 
         public string Query(string query)
         {
             try
             {
-                using (connection)
+                using (_connection)
                 {
-                    var result = connection.Query(query);
-                    Logger.Trace($"Open Query : {result}");
+                    var result = _connection.Query(query);
+                    LogHandler.Info($"Open Query : {result}");
                     var firstOrDefault = result.FirstOrDefault();
                     if (firstOrDefault != null) return firstOrDefault.ToString();
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"at:{this.GetType().Name}");
+                LogHandler.Error(ex);
             }
             return "error";
         }
 
         ~GeneralManager()
         {
-            connection.Close();
+            LogHandler.Info($"Connection closed to database, db:{_connection.Database}");
+            _connection.Close();
         }
     }
 }
