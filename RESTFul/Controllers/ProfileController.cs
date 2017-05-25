@@ -20,12 +20,7 @@ namespace RESTFul.Controllers
         [Route("FindAll")]
         public object FindAll(Search search)
         {
-            IAppCache cache = new CachingService();
-            string cacheName = $"Profile-{search.page}-{search.limit}-{search.query}-{search.orderBy}";
-            var products = cache.GetOrAdd(cacheName,
-                () => new { data = manager.FindAll(search), count = manager.Count() },
-                DateTimeOffset.Now.AddMinutes(5));
-            return products;
+            return new { data = manager.FindAll(search), count = manager.Count() };
         }
 
         // GET api/values/5
@@ -54,7 +49,7 @@ namespace RESTFul.Controllers
         {
             return manager.Delete(profile);
         }
-        [Log]
+
         [Route("Count")]
         [HttpGet]
         public int Count(string where = "")

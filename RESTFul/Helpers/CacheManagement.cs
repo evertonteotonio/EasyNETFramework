@@ -1,9 +1,13 @@
-﻿
-namespace Data
+﻿using Common;
+using LazyCache;
+using System;
+using System.Collections.Generic;
+
+namespace RESTFul.Helpers
 {
     public static class CacheManagement<T>
     {
-        /*static IAppCache cache = new CachingService();
+        static IAppCache cache = new CachingService();
         public static T AddGetItem(string keyName, T value)
         {
             LogHandler.Info($"Cache - Adding {keyName}");
@@ -32,6 +36,6 @@ namespace Data
         {
             LogHandler.Info($"Cache - Removeing {keyName}");
             cache.Remove(keyName);
-        }*/
+        }
     }
 }

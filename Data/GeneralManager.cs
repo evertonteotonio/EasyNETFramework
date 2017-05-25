@@ -5,7 +5,7 @@ using System.Linq;
 using Common;
 using Dapper;
 using Entity.NotMapped;
-using NLog;
+
 
 namespace Data
 {
@@ -16,7 +16,8 @@ namespace Data
         {
             _connection = new SqlConnection(Common.Data.ConnectionString);
             LogHandler.Info($"Connection open to database, db:{_connection.Database}");
-            _connection.Open();
+            if (_connection.State != System.Data.ConnectionState.Open & _connection.State != System.Data.ConnectionState.Connecting)
+            { _connection.Open(); }
         }
         public T Add(T item)
         {
@@ -25,7 +26,6 @@ namespace Data
                 LogHandler.Trace($"Beginning Add at: {GetType().Name}");
                 var insert = _connection.Insert(item);
                 LogHandler.Trace($"Success Add at: {GetType().Name} - Added item Id: {insert?.ToString() ?? "error"}",item);
-                CacheManagement<T>.AddGetItem(GetType().Name + "-" + insert, item);
                 //item.Id = insert ?? -1;
                 if (insert != null) return item;
             }
@@ -43,13 +43,7 @@ namespace Data
                 LogHandler.Trace($"Beginning Update at: {GetType().Name}");
                 _connection.Update(item);
                 var propertyInfo = item.GetType().GetProperty("Id");
-                if (propertyInfo != null)
-                {
-                    CacheManagement<T>.Remove(GetType().Name + "-" + propertyInfo.GetValue(item));
-                    CacheManagement<T>.AddGetItem(GetType().Name + "-" + propertyInfo.GetValue(item),
-                        item);
-                    LogHandler.Trace($"{GetType().Name} - Updated item Id: {propertyInfo.GetValue(item)}");
-                }
+                LogHandler.Trace($"{GetType().Name} - Updated item Id: {propertyInfo.GetValue(item)}");
                 return item;
             }
             catch (Exception ex)
@@ -65,13 +59,9 @@ namespace Data
             {
                 LogHandler.Trace($"Beginning Delete at: {GetType().Name}");
                 var propertyInfo = item.GetType().GetProperty("Id");
-                if (propertyInfo != null)
-                {
-                    CacheManagement<T>.Remove(GetType().Name + "-" + propertyInfo.GetValue(item));
-                }
-                //item.IsDeleted = true;
+                item.GetType().GetProperty("Id").SetValue(item,true);
                 var result = _connection.Update(item);
-                LogHandler.Trace($"{GetType().Name} - Delete item by Id: {result}");
+                //LogHandler.Trace($"{GetType().Name} - Delete item by Id: {propertyInfo.GetProperty("Id").GetValue()}");
                 return item;
             }
             catch (Exception ex)
@@ -86,14 +76,9 @@ namespace Data
             try
             {
                 LogHandler.Trace($"Beginning find by id at: {GetType().Name}");
-                var data = CacheManagement<T>.GetItem(GetType().Name + "-" + id);
-                if (data != null) return data;
-                using (_connection)
-                {
-                    var item = _connection.Get<T>(id);
-                    LogHandler.Trace($"{GetType().Name} - Find item by Id: {id}");
-                    return CacheManagement<T>.AddGetItem(GetType().Name + "-" + id, item);
-                }
+                var item = _connection.Get<T>(id);
+                LogHandler.Trace($"{GetType().Name} - Find item by Id: {id}");
+                return item;
             }
             catch (Exception ex)
             {
@@ -108,9 +93,10 @@ namespace Data
             {
                 using (_connection)
                 {
-                    var item = _connection.GetListPaged<T>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy));
+                    string searchCache = $"{GetType().Name}-FindAll-{search.page}-{search.limit}-{HandleQuery(search.query, "FullName")}-{HandleOrderBy(search.orderBy)}";
+                    var item = _connection.GetListPaged<T>(search.page, search.limit, HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy)).ToList();
                     LogHandler.Trace($"{GetType().Name} - Find All item count: {item.Count()}");
-                    return (List<T>)item;
+                    return item;
                 }
             }
             catch (Exception ex)

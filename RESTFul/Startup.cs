@@ -10,10 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RESTFul.Helpers;
 using System;
-using Autofac.Extras.NLog;
 using Microsoft.AspNetCore.Http;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using System.Net.WebSockets;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace RESTFul
 {
@@ -52,6 +54,7 @@ namespace RESTFul
                                  .RequireAuthenticatedUser()
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
+                config.Filters.Add(new LogAttribute());
             });
             services.AddAuthorization(options =>
             {
@@ -106,8 +109,46 @@ namespace RESTFul
             });
             loggerFactory.AddNLog();
             app.AddNLogWeb();
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024
+            };
+            app.UseWebSockets(webSocketOptions);
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/ws")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        await Echo(context, webSocket);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+
+            });
             app.UseMvc();
             
+        }
+        private async Task Echo(HttpContext context, WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            while (!result.CloseStatus.HasValue)
+            {
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
     }
 }
