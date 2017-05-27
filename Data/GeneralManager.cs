@@ -5,7 +5,7 @@ using System.Linq;
 using Common;
 using Dapper;
 using Entity.NotMapped;
-
+using Entity.Common;
 
 namespace Data
 {
@@ -25,6 +25,7 @@ namespace Data
             {
                 LogHandler.Trace($"Beginning Add at: {GetType().Name}");
                 var insert = _connection.Insert(item);
+                _connection.Insert(new AuditData { ActionTime = DateTime.Now, EntityName = GetType().Name, EntityId = insert.Value, UserId = 1, ActionType = Enums.ActionType.Insert });
                 LogHandler.Trace($"Success Add at: {GetType().Name} - Added item Id: {insert?.ToString() ?? "error"}",item);
                 //item.Id = insert ?? -1;
                 if (insert != null) return item;
@@ -43,6 +44,7 @@ namespace Data
                 LogHandler.Trace($"Beginning Update at: {GetType().Name}");
                 _connection.Update(item);
                 var propertyInfo = item.GetType().GetProperty("Id");
+                _connection.Insert(new AuditData { ActionTime = DateTime.Now, EntityName = GetType().Name, EntityId = int.Parse(propertyInfo.GetValue(item).ToString()), UserId = 1, ActionType = Enums.ActionType.Insert });
                 LogHandler.Trace($"{GetType().Name} - Updated item Id: {propertyInfo.GetValue(item)}");
                 return item;
             }
@@ -59,7 +61,8 @@ namespace Data
             {
                 LogHandler.Trace($"Beginning Delete at: {GetType().Name}");
                 var propertyInfo = item.GetType().GetProperty("Id");
-                item.GetType().GetProperty("Id").SetValue(item,true);
+                item.GetType().GetProperty("IsDeleted").SetValue(item,true);
+                _connection.Insert(new AuditData { ActionTime = DateTime.Now, EntityName = GetType().Name, EntityId = int.Parse(propertyInfo.GetValue(item).ToString()), UserId = 1, ActionType = Enums.ActionType.Insert });
                 var result = _connection.Update(item);
                 //LogHandler.Trace($"{GetType().Name} - Delete item by Id: {propertyInfo.GetProperty("Id").GetValue()}");
                 return item;

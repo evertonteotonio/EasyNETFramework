@@ -40,7 +40,7 @@ namespace RESTFul.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Get([FromBody] User applicationUser)
         {
-            var identity = await GetClaimsIdentity(applicationUser);
+            var identity = await GetClaimsIdentity(ref applicationUser);
             if (identity == null)
             {
                 _logger.LogInformation($"Invalid username ({applicationUser.UserName}) or password ({applicationUser.Password})");
@@ -70,7 +70,8 @@ namespace RESTFul.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
+                User_Id = applicationUser.Id
             };
             var json = JsonConvert.SerializeObject(response, _serializerSettings);
             return new OkObjectResult(json);
@@ -105,11 +106,12 @@ namespace RESTFul.Controllers
         /// You'd want to retrieve claims through your claims provider
         /// in whatever way suits you, the below is purely for demo purposes!
         /// </summary>
-        private static Task<ClaimsIdentity> GetClaimsIdentity(User user)
+        private static Task<ClaimsIdentity> GetClaimsIdentity(ref User user)
         {
             if (user.UserName == "admin" &&
                 user.Password == "123456")
             {
+                user.Id = 1;
                 return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
                   new[]
                   {

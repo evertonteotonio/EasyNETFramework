@@ -16,7 +16,7 @@ namespace RESTFul.Helpers
         ///   The "iss" value is a case-sensitive string containing a StringOrURI
         ///   value.  Use of this claim is OPTIONAL.</remarks>
         public string Issuer { get; set; }
-
+        public int UserId { get; set; }
         /// <summary>
         /// "sub" (Subject) Claim
         /// </summary>
