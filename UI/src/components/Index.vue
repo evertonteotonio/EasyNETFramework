@@ -91,6 +91,7 @@ export default {
   methods: {
     Logout: function () {
       Store.commit('increment', '')
+      Store.commit('userData', null)
       this.$router.push({ path: '/' })
     }
   },

@@ -45,7 +45,7 @@ export default {
           // get body data
           console.log(response.body)
           Store.commit('increment', response.body.access_token)
-          this.$http.get('user/FindbyName/' + this.UserName).then(responseUser => {
+          this.$http.get('user/FindbyId/' + response.body.User_Id).then(responseUser => {
             console.log(responseUser.body)
             Store.commit('userData', responseUser.body)
           })
