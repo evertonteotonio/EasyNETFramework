@@ -118,8 +118,8 @@ namespace RESTFul.Controllers
             new Claim("EasyClaim", "EasyValues")
                   }));
             }
-            UserManager manager = new UserManager();
-            if (manager.Login(user))
+            UserExtendedManager _extendedManager = new UserExtendedManager();
+            if (_extendedManager.Login(user))
             {
                 return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
                   new Claim[] { }));

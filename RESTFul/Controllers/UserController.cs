@@ -11,7 +11,7 @@ namespace RESTFul.Controllers
     [Route("api/[controller]")]
     public class UserController : BaseController
     {
-        UserManager manager = new UserManager();
+        UserExtendedManager _extendedManager = new UserExtendedManager();
         // GET: api/values
         //[JwtAuthentication]
         public IEnumerable<string> Get()
@@ -28,19 +28,19 @@ namespace RESTFul.Controllers
         [HttpGet("FindbyName/{UserName}")]
         public User GetByUserName([FromRoute]string UserName)
         {
-            return manager.FindByUserName(UserName);
+            return _extendedManager.FindByUserName(UserName);
         }
         [HttpGet("FindbyId/{Id}")]
         public User GetById([FromRoute]int Id)
         {
-            return manager.FindById(Id);
+            return _extendedManager.FindById(Id);
         }
         // POST api/values
         [HttpPost]
         public User Post([FromBody]User user)
         {
             user.Password = user.sha256(user.Password);
-            return manager.Add(user);
+            return _extendedManager.Add(user);
         }
 
         // PUT api/values/5
@@ -54,12 +54,11 @@ namespace RESTFul.Controllers
         public void Delete(int id)
         {
         }
-        [Log]
         [Route("Count")]
         [HttpGet]
         public int Count(string where = "")
         {
-            return manager.Count(where);
+            return _extendedManager.Count(where);
         }
     }
 }

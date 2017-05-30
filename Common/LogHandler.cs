@@ -7,25 +7,25 @@ namespace Common
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Error(Exception ex, string msg = "")
         {
-            Logger.Error(ex, msg);
+            /*Logger.Error(ex, msg);*/
         }
         public static void Info(string msg,object value = null)
         {
-            Logger.Info(msg);
+            /*Logger.Info(msg);
             if (value != null)
-                Logger.Info(value);
+                Logger.Info(value);*/
         }
         public static void Trace(string msg, object value = null)
         {
-            Logger.Trace(msg);
+           /* Logger.Trace(msg);
             if (value != null)
-                Logger.Trace(value);
+                Logger.Trace(value);*/
         }
         public static void Debug(string msg, object value)
         {
-            Logger.Debug(msg);
+            /*Logger.Debug(msg);
             if (value != null)
-                Logger.Debug(value);
+                Logger.Debug(value);*/
         }
     }
 }

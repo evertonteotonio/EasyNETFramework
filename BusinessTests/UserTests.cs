@@ -11,13 +11,13 @@ namespace BusinessTests
         [Test]
         public void Add()
         {
-            UserManager manager = new UserManager();
+            UserExtendedManager _extendedManager = new UserExtendedManager();
             User user = new User();
             user.Password = user.sha256("123456");
             user.ProfileId = 1;
             user.UserName = "test";
             user.CreatedAt = DateTime.Now;
-            var result = manager.Add(user);
+            var result = _extendedManager.Add(user);
             Assert.NotNull(result);
         }
     }

@@ -57,12 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheManagement.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="GeneralManager.cs" />
     <Compile Include="IManager.cs" />
-    <Compile Include="ProfileManager.cs" />
+    <Compile Include="ProfileExtendedManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stock\ItemManager.cs" />
-    <Compile Include="UserManager.cs" />
+    <Compile Include="Stock\ItemExtendedManager.cs" />
+    <Compile Include="UserExtendedManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

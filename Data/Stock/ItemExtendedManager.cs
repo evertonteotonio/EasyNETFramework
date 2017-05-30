@@ -2,7 +2,7 @@
 
 namespace Data.Stock
 {
-    public class ItemManager : GeneralManager<Item>
+    public class ItemExtendedManager : GeneralManager<Item>
     {
         
     }

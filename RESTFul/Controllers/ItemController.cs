@@ -1,5 +1,4 @@
-﻿using Data.Stock;
-using Entity.NotMapped;
+﻿using Entity.NotMapped;
 using Entity.Stock;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,50 +7,45 @@ using Microsoft.AspNetCore.Mvc;
 namespace RESTFul.Controllers
 {
     [Route("api/[controller]")]
-    public class ItemController : Controller
+    public class ItemController : BaseController
     {
-        readonly ItemManager _manager = new ItemManager();
         // GET: api/values
         [HttpGet]
         [Route("FindAll")]
         public object FindAll(Search search)
         {
-            return new { data = _manager.FindAll(search), count = _manager.Count() };
+            return new { data = DbContext.ItemManager.FindAll(search), count = DbContext.ItemManager.Count() };
         }
-
         // GET api/values/5
         [HttpGet("{id}")]
         public Item Get(int id)
         {
-            return _manager.FindById(id);
+            return DbContext.ItemManager.FindById(id);
         }
-
         // POST api/values
         [HttpPost]
         public Item Post([FromBody]Item item)
         {
-            return _manager.Add(item);
+            return DbContext.ItemManager.Add(item);
         }
         [HttpPut]
         // PUT api/values
         public Item Put([FromBody]Item item)
         {
-            return _manager.Update(item);
+            return DbContext.ItemManager.Update(item);
         }
-
         // DELETE api/values
         [HttpDelete]
         public Item Delete([FromBody]Item item)
         {
-            return _manager.Delete(item);
+            return DbContext.ItemManager.Delete(item);
         }
         [Route("Count")]
         [HttpGet]
         public int Count(string where = "")
         {
             where = where != "" ? "where " + where : "";
-            return _manager.Count(where);
+            return DbContext.ItemManager.Count(where);
         }
-        
     }
 }
