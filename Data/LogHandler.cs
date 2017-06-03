@@ -15,7 +15,7 @@ namespace EFN.Data
                 Exception = ex.Message,
                 Data = ex.StackTrace,
                 Message = msg,
-                Level = Enums.LogLevel.Error
+                LogLevel = Enums.LogLevel.Error
             });
         }
         public static void Info(string msg,object value = null)
@@ -25,7 +25,7 @@ namespace EFN.Data
             {
                 Data = value.ToString(),
                 Message = msg,
-                Level = Enums.LogLevel.Info
+                LogLevel = Enums.LogLevel.Info
             });
         }
         public static void Trace(string msg, object value = null)
@@ -35,7 +35,7 @@ namespace EFN.Data
             {
                 Data = value.ToString(),
                 Message = msg,
-                Level = Enums.LogLevel.Trace
+                LogLevel = Enums.LogLevel.Trace
             });
         }
         public static void Debug(string msg, object value)
@@ -45,7 +45,7 @@ namespace EFN.Data
             {
                 Data = value.ToString(),
                 Message = msg,
-                Level = Enums.LogLevel.Debug
+                LogLevel = Enums.LogLevel.Debug
             });
         }
     }

@@ -41,11 +41,11 @@ namespace EFN.Data
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    LogHandler.Trace($"Beginning Add at: {GetType().Name}");
+                    //LogHandler.Trace($"Beginning Add at: {GetType().Name}");
                     var insert = connection.Insert(item);
                     var propertyInfo = item.GetType().GetProperty("Id");
                     connection.Insert(new AuditData { ActionTime = DateTime.Now, EntityName = GetType().Name, EntityId = insert.Value, UserId = 1, ActionType = Enums.ActionType.Insert });
-                    LogHandler.Trace($"Success Add at: {GetType().Name} - Added item Id: {insert?.ToString() ?? "error"}", item);
+                    //LogHandler.Trace($"Success Add at: {GetType().Name} - Added item Id: {insert?.ToString() ?? "error"}", item);
                     //item.Id = insert ?? -1;
                     if (insert != null) return item;
                 }
@@ -157,7 +157,7 @@ namespace EFN.Data
                 {
                     var item = connection.GetListPaged<T>(search.page, search.limit,
                         HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy)).ToList();
-                    LogHandler.Trace($"{GetType().Name} - Find All item count: {item.Count()}");
+                    //LogHandler.Trace($"{GetType().Name} - Find All item count: {item.Count()}");
                     return item;
                 }
             }
@@ -178,9 +178,9 @@ namespace EFN.Data
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    LogHandler.Trace($"Beginning {GetType().Name} Find item count");
+                    //LogHandler.Trace($"Beginning {GetType().Name} Find item count");
                     var count = connection.RecordCount<T>(where);
-                    LogHandler.Trace($"Ending {GetType().Name} Find item count: {count}");
+                    //LogHandler.Trace($"Ending {GetType().Name} Find item count: {count}");
                     return count;
                 }
             }

@@ -2,23 +2,19 @@
   <div>
     <h3 v-on:click="$refs.newUserModal.open()">Users</h3>
     <button v-on:click="getData()">test</button>
-    <q-data-table :data="dataTable"
+    <q-data-table :data="table"
                   :config="config"
-                  :columns="columns">
-      <!-- Custom renderer for "message" column -->
-      <template slot="col-message" scope="cell">
-        <span class="light-paragraph">{{cell.data}}</span>
-      </template>
-      <!-- Custom renderer for "source" column -->
+                  :columns="columns"
+                  @refresh="refresh">
       <template slot="col-source" scope="cell">
         <span class="label text-white bg-negative">{{cell.data}}</span>
       </template>
-      <!-- Custom renderer when user selected one or more rows -->
-      <template slot="selection" scope="selection">
-        <button class="primary clear" @click="changeMessage(selection)">
+
+      <template slot="selection" scope="props">
+        <button class="primary clear" @click="changeMessage(props)">
           <i>edit</i>
         </button>
-        <button class="primary clear" @click="deleteRow(selection)">
+        <button class="primary clear" @click="deleteRow(props)">
           <i>delete</i>
         </button>
       </template>
@@ -80,7 +76,7 @@
   </div>
 </template>
 <script>
-import { Dialog } from 'quasar'
+import { Dialog, Platform, Toast } from 'quasar'
 export default {
   data () {
     return {
@@ -100,92 +96,89 @@ export default {
       },
       msg: 'test',
       dataTable: '',
-      columns: [
-        {
-          // [REQUIRED] Column name
-          label: 'Full Name',
-          // [REQUIRED] Row property name
-          field: 'fullName',
-          // [REQUIRED] Column width
-          width: '50px',
-          // (optional) Column CSS style
-          // "style" can be a function too if you want to apply
-          // certain CSS style based on cell value:
-          // style (cell_value) { return .... }
-          // (optional) Column CSS classes
-          classes: 'bg-primary',
-          // "classes" can be a function too if you want to apply
-          // certain CSS class based on cell value:
-          // classes (cell_value) { return .... }
-          // (optional) Can filter/search be applied to this column?
-          filter: true
-        }
-      ],
+      table: '',
       config: {
-        // [REQUIRED] Set the row height
-        rowHeight: '50px',
-        // (optional) Title to display
-        title: 'Users',
-        // (optional) No columns header
-        noHeader: true,
-        // (optional) Display refresh button
+        title: 'Data Table',
         refresh: true,
-        // (optional)
-        // User will be able to choose which columns
-        // should be displayed
         columnPicker: true,
-        // (optional) How many columns from the right are sticky
-        // (optional)
-        // Styling the body of the data table;
-        // "minHeight", "maxHeight" or "height" are important
+        leftStickyColumns: 1,
+        rightStickyColumns: 2,
         bodyStyle: {
-          maxHeight: '500px'
+          maxHeight: Platform.is.mobile ? '50vh' : '500px'
         },
-        // (optional) By default, Data Table is responsive,
-        // but you can disable this by setting the property to "false"
+        rowHeight: '50px',
         responsive: true,
-        // (optional) Use pagination. Set how many rows per page
-        // and also specify an additional optional parameter ("options")
-        // which forces user to make a selection of how many rows per
-        // page he wants from a specific list
         pagination: {
-          rowsPerPage: 10,
+          rowsPerPage: 15,
           options: [5, 10, 15, 30, 50, 500]
         },
-        // (optional) User can make selections. When "single" is specified
-        // then user will be able to select only one row at a time.
-        // Otherwise use "multiple".
         selection: 'multiple',
-        // (optional) Override default messages when no data is available
-        // or the user filtering returned no results.
         messages: {
           noData: '<i>warning</i> No data available to show.',
           noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
-        },
-        // (optional) Override default labels. Useful for I18n.
-        labels: {
-          columns: 'columns',
-          allCols: 'Every Cols',
-          rows: 'Rows',
-          selected: {
-            singular: 'item selected.',
-            plural: 'items selected.'
-          },
-          clear: 'clear',
-          search: 'Search',
-          all: 'All'
         }
-      }
+      },
+      columns: [
+        {
+          label: 'Id',
+          field: 'id',
+          sort: true,
+          filter: true,
+          format (value) {
+            if (value === 'Informational') {
+              return '<i class="text-positive">info</i>'
+            }
+            return value
+          },
+          width: '80px'
+        },
+        {
+          label: 'Full Name',
+          field: 'fullName',
+          sort: true,
+          filter: true,
+          width: '500px'
+        },
+        {
+          label: 'Email',
+          field: 'email',
+          sort: true,
+          filter: true,
+          width: '120px'
+        }
+      ],
+      pagination: true,
+      rowHeight: 50,
+      bodyHeightProp: 'maxHeight',
+      bodyHeight: 500
     }
   },
   computed: {
 
   },
   methods: {
+    changeMessage (props) {
+      props.rows.forEach(row => {
+        row.data.fullName = 'Quasar Framework rocks!'
+      })
+      Toast.create('Changed "Message" field for selected row(s).')
+    },
+    deleteRow (props) {
+      props.rows.forEach(row => {
+        this.table.splice(row.index, 1)
+      })
+    },
+    refresh (done) {
+      this.getData()
+      done()
+      /* this.timeout = setTimeout(() => {
+        done()
+      }, 5000) */
+    },
     getData: function () {
       this.$http.get('Profile/FindAll?page=1&limit=10').then(response => {
         // get body data
-        this.dataTable = response.body.data
+        this.table = response.body.data
       }, response => {
         // error callback
       })
