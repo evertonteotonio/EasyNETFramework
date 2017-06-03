@@ -1,8 +1,9 @@
 ﻿using System;
-using Common;
+using EFN.Common;
+using EFN.Data;
 using Entity.System;
 
-namespace Data
+namespace EFN.Data
 {
     public static class LogHandler
     {

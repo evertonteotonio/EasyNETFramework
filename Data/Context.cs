@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 ﻿using EFN.Entity;
 using EFN.Entity.Stock;
-=======
-﻿using Entity;
-using Entity.Stock;
 using Entity.System;
->>>>>>> origin/master
 
 namespace EFN.Data
 {

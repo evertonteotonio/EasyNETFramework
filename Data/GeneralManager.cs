@@ -6,6 +6,7 @@ using EFN.Common;
 using Dapper;
 using EFN.Entity.NotMapped;
 using EFN.Entity.Common;
+using EFN.Data;
 
 namespace EFN.Data
 {
