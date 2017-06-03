@@ -1,7 +1,12 @@
 ﻿
 using System.Data.SqlClient;
 using System.IO;
+<<<<<<< HEAD
 namespace EFN.Common
+=======
+
+namespace Common
+>>>>>>> origin/master
 {
     public static class Data
     {

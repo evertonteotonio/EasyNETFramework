@@ -22,6 +22,7 @@ namespace EFN.Data
     /// </item>
     /// </list>
     /// </summary>
+    /// <typeparam name="T">Type of class that add data</typeparam>
     public class GeneralManager<T>
     {
         public GeneralManager()
@@ -74,7 +75,7 @@ namespace EFN.Data
                         EntityName = GetType().Name,
                         EntityId = int.Parse(propertyInfo.GetValue(item).ToString()),
                         UserId = 1,
-                        ActionType = Enums.ActionType.Insert
+                        ActionType = Enums.ActionType.Update
                     });
                     LogHandler.Trace($"{GetType().Name} - Updated item Id: {propertyInfo.GetValue(item)}");
                     return item;
@@ -106,7 +107,7 @@ namespace EFN.Data
                         EntityName = GetType().Name,
                         EntityId = int.Parse(propertyInfo.GetValue(item).ToString()),
                         UserId = 1,
-                        ActionType = Enums.ActionType.Insert
+                        ActionType = Enums.ActionType.Delete
                     });
                     var result = connection.Update(item);
                     //LogHandler.Trace($"{GetType().Name} - Delete item by Id: {propertyInfo.GetProperty("Id").GetValue()}");

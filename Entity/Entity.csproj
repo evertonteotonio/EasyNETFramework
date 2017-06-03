@@ -36,9 +36,14 @@
     <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Security">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +60,7 @@
     <Compile Include="Stock\Item.cs" />
     <Compile Include="Stock\ItemStock.cs" />
     <Compile Include="Stock\Warehouse.cs" />
+    <Compile Include="System\Log.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

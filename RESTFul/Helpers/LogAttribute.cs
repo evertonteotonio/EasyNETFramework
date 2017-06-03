@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 ﻿using EFN.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
+=======
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+>>>>>>> origin/master
 using System.Linq;
+using Data;
+
 namespace RESTFul.Helpers
 {
     public class LogAttribute : ActionFilterAttribute
