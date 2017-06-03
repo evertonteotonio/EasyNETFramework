@@ -1,7 +1,7 @@
 ﻿
 using System.Data.SqlClient;
 using System.IO;
-using Microsoft.SqlServer;
+
 namespace Common
 {
     public static class Data
