@@ -1,10 +1,8 @@
 ﻿using System;
-using NLog;
-namespace Common
+namespace EFN.Common
 {
     public static class LogHandler
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Error(Exception ex, string msg = "")
         {
             /*Logger.Error(ex, msg);*/

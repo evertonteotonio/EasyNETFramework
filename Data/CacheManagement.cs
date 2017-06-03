@@ -1,5 +1,5 @@
 ﻿
-namespace Data
+namespace EFN.Data
 {
     public static class CacheManagement<T>
     {

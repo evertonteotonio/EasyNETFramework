@@ -2,7 +2,7 @@
 using Dapper.Contrib.Extensions;
 using System.Text;
 
-namespace Entity
+namespace EFN.Entity
 {
     public class User
     {

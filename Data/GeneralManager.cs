@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Common;
+using EFN.Common;
 using Dapper;
-using Entity.NotMapped;
-using Entity.Common;
+using EFN.Entity.NotMapped;
+using EFN.Entity.Common;
 
-namespace Data
+namespace EFN.Data
 {
     /// <summary>
     /// <list type="bullet">

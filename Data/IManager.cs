@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Entity.NotMapped;
+using EFN.Entity.NotMapped;
 
-namespace Data
+namespace EFN.Data
 {
     /// <summary>
     /// Interface IManager

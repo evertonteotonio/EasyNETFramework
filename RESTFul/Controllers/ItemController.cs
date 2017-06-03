@@ -1,5 +1,5 @@
-﻿using Entity.NotMapped;
-using Entity.Stock;
+﻿using EFN.Entity.NotMapped;
+using EFN.Entity.Stock;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

@@ -1,8 +1,8 @@
-﻿using Common;
+﻿using EFN.Common;
 using Dapper.Contrib.Extensions;
 using System;
 
-namespace Entity.Common
+namespace EFN.Entity.Common
 {
     public class AuditData
     {

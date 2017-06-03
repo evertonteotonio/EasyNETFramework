@@ -1,6 +1,6 @@
-﻿using Entity.Stock;
+﻿using EFN.Entity.Stock;
 
-namespace Data.Stock
+namespace EFN.Data.Stock
 {
     public class ItemExtendedManager : GeneralManager<Item>
     {

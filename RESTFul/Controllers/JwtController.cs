@@ -9,8 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using Entity;
-using Data;
+using EFN.Entity;
+using EFN.Data;
 using Microsoft.AspNetCore.Cors;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

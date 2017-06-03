@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Data;
+using EFN.Data;
 using Microsoft.AspNetCore.Mvc;
-using Entity;
+using EFN.Entity;
 using RESTFul.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

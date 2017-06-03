@@ -1,7 +1,7 @@
-﻿using Entity;
-using Entity.Stock;
+﻿using EFN.Entity;
+using EFN.Entity.Stock;
 
-namespace Data
+namespace EFN.Data
 {
     public class Context
     {

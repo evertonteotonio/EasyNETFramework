@@ -11,8 +11,6 @@ using System.Text;
 using RESTFul.Helpers;
 using System;
 using Microsoft.AspNetCore.Http;
-using NLog.Extensions.Logging;
-using NLog.Web;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using System.Threading;
@@ -31,7 +29,6 @@ namespace RESTFul
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            env.ConfigureNLog("nlog.config");
             Configuration = builder.Build();
         }
 
@@ -106,8 +103,6 @@ namespace RESTFul
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });
-            loggerFactory.AddNLog();
-            app.AddNLogWeb();
             var webSocketOptions = new WebSocketOptions()
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(120),

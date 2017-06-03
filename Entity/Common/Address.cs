@@ -1,6 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
 
-namespace Entity.Common
+namespace EFN.Entity.Common
 {
     public class Address
     {

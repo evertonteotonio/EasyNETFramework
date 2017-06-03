@@ -1,6 +1,6 @@
 ﻿using System;
-using Data;
-using Entity;
+using EFN.Data;
+using EFN.Entity;
 using NUnit.Framework;
 
 namespace BusinessTests
@@ -16,7 +16,7 @@ namespace BusinessTests
             user.Password = user.sha256("123456");
             user.ProfileId = 1;
             user.UserName = "test";
-            user.CreatedAt = DateTime.Now;
+            //user.CreatedAt = DateTime.Now;
             var result = _extendedManager.Add(user);
             Assert.NotNull(result);
         }

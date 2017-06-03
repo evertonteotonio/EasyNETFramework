@@ -7,8 +7,8 @@
     <ProjectGuid>{493F6474-354E-431D-B1C7-52883D53E86F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Entity</RootNamespace>
-    <AssemblyName>Entity</AssemblyName>
+    <RootNamespace>ENF.Entity</RootNamespace>
+    <AssemblyName>ENF.Entity</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

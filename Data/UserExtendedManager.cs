@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data.SqlClient;
-using Common;
-using Entity;
+using EFN.Common;
+using EFN.Entity;
 using Dapper;
 
-namespace Data
+namespace EFN.Data
 {
     public class UserExtendedManager : GeneralManager<User>
     {

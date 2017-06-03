@@ -1,8 +1,7 @@
 ﻿
 using System.Data.SqlClient;
 using System.IO;
-using Microsoft.SqlServer;
-namespace Common
+namespace EFN.Common
 {
     public static class Data
     {
