@@ -30,6 +30,7 @@ namespace EFN.Data
         {
 
         }
+
         /// <summary>
         /// Adds the specified item.
         /// </summary>
@@ -56,6 +57,7 @@ namespace EFN.Data
             }
             return default(T);
         }
+
         /// <summary>
         /// Updates the specified item.
         /// </summary>
@@ -88,6 +90,7 @@ namespace EFN.Data
             }
             return default(T);
         }
+
         /// <summary>
         /// Deletes the specified item.
         /// </summary>
@@ -121,6 +124,7 @@ namespace EFN.Data
             }
             return default(T);
         }
+
         /// <summary>
         /// Finds the by identifier.
         /// </summary>
@@ -144,6 +148,7 @@ namespace EFN.Data
             }
             return default(T);
         }
+
         /// <summary>
         /// Finds all.
         /// </summary>
@@ -155,8 +160,11 @@ namespace EFN.Data
             {
                 using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
                 {
-                    var item = connection.GetListPaged<T>(search.page, search.limit,
-                        HandleQuery(search.query, "FullName"), HandleOrderBy(search.orderBy)).ToList();
+                    var item = connection.GetListPaged<T>(
+                        search.page,
+                        search.limit,
+                        HandleQuery(search.query, "FullName"),
+                        HandleOrderBy(search.orderBy)).ToList();
                     //LogHandler.Trace($"{GetType().Name} - Find All item count: {item.Count()}");
                     return item;
                 }
@@ -167,6 +175,7 @@ namespace EFN.Data
             }
             return null;
         }
+
         /// <summary>
         /// Counts the specified where.
         /// </summary>
@@ -191,15 +200,32 @@ namespace EFN.Data
             return -1;
         }
 
+        /// <summary>
+        /// Handles the query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="searchColumn">The search column.</param>
+        /// <returns>System.String.</returns>
         public string HandleQuery(string query, string searchColumn)
         {
             return !string.IsNullOrEmpty(query) ? $"where {searchColumn} like '%{query}%'" : "";
         }
+
+        /// <summary>
+        /// Handles the order by.
+        /// </summary>
+        /// <param name="orderColumn">The order column.</param>
+        /// <returns>System.String.</returns>
         public string HandleOrderBy(string orderColumn)
         {
             return !string.IsNullOrEmpty(orderColumn) ? $"{orderColumn}" : "";
         }
 
+        /// <summary>
+        /// Queries the specified query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns>System.String.</returns>
         public string Query(string query)
         {
             try

@@ -48,6 +48,16 @@
         </div>
       </q-drawer>
       <!-- IF USING subRoutes only: -->
+    <q-fab class="absolute-bottom-right touch-only" classNames="purple"
+           icon="keyboard_arrow_up"
+           direction="up" style="z-index:1;">
+      <q-small-fab class="white"
+                   @click.native="someMethod()"
+                   icon="mail"></q-small-fab>
+      <q-small-fab class="white"
+                   @click.native="someMethod()"
+                   icon="alarm"></q-small-fab>
+    </q-fab>
       <router-view class="layout-view"></router-view>
       <!-- OR ELSE, IF NOT USING subRoutes: -->
     <!--<div class="layout-view">

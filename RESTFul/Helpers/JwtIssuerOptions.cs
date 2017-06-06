@@ -1,10 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
-namespace RESTFul.Helpers
+namespace ENF.RESTFul.Helpers
 {
     public class JwtIssuerOptions
     {

@@ -11,5 +11,7 @@ namespace EFN.Entity.Stock
         public bool IsActive { get; set; }
         public bool IsDownload { get; set; }
         public bool IsDeleted { get; set; }
+        [Write(false)]
+        public ItemStock ItemStock { get; set; }
     }
 }

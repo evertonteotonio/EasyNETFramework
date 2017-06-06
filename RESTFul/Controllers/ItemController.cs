@@ -2,21 +2,59 @@
 using EFN.Entity.Stock;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace RESTFul.Controllers
+//For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace ENF.RESTFul.Controllers
 {
+    using EFN.Data.Stock;
+
+    using Microsoft.AspNetCore.Authorization;
+
     [Route("api/[controller]")]
     public class ItemController : BaseController
     {
-        // GET: api/values
+        /// <summary>
+        /// The extended manager.
+        /// </summary>
+        private readonly ItemExtendedManager extendedManager = new ItemExtendedManager();
+
+        /// <summary>
+        /// The find all.
+        /// </summary>
+        /// <param name="search">
+        /// The search.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
         [HttpGet]
         [Route("FindAll")]
         public object FindAll(Search search)
         {
             return new { data = DbContext.ItemManager.FindAll(search), count = DbContext.ItemManager.Count() };
         }
-        // GET api/values/5
+
+        /// <summary>
+        /// The find all.
+        /// </summary>
+        /// <param name="search">
+        /// The search.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ItemWithStock")]
+        public object ItemWithStock(Search search)
+        {
+            return new { data = extendedManager.ItemWithStock(search), count = DbContext.ItemManager.Count() };
+        }
+
+        /// <summary>
+        /// To get an item by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Item Get(int id)
         {

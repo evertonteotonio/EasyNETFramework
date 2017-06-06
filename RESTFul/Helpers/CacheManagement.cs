@@ -1,9 +1,9 @@
-﻿using LazyCache;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using EFN.Data;
+using LazyCache;
 
-namespace RESTFul.Helpers
+namespace ENF.RESTFul.Helpers
 {
     public static class CacheManagement<T>
     {

@@ -1,7 +1,8 @@
+using System.Linq;
 using EFN.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Linq;
-namespace RESTFul.Helpers
+
+namespace ENF.RESTFul.Helpers
 {
     public class LogAttribute : ActionFilterAttribute
     {

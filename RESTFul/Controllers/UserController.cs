@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using EFN.Data;
-using Microsoft.AspNetCore.Mvc;
 using EFN.Entity;
-using RESTFul.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace RESTFul.Controllers
+namespace ENF.RESTFul.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : BaseController
