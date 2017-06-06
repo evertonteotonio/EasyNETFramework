@@ -1,6 +1,6 @@
 ﻿using System;
-using EFN.Data;
-using EFN.Entity;
+using ENF.Data;
+using ENF.Entity;
 using NUnit.Framework;
 
 namespace BusinessTests

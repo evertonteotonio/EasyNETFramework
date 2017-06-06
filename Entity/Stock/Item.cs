@@ -1,6 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
 
-namespace EFN.Entity.Stock
+namespace ENF.Entity.Stock
 {
     public class Item
     {

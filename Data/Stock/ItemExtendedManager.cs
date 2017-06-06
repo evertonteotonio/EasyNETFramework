@@ -1,11 +1,11 @@
-﻿using EFN.Entity.Stock;
+﻿using ENF.Entity.Stock;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
 using System.Linq;
-namespace EFN.Data.Stock
+namespace ENF.Data.Stock
 {
-    using EFN.Entity.NotMapped;
+    using ENF.Entity.NotMapped;
 
     public class ItemExtendedManager : GeneralManager<Item>
     {

@@ -1,6 +1,6 @@
-﻿using EFN.Data;
-using EFN.Entity;
-using EFN.Entity.NotMapped;
+﻿using ENF.Data;
+using ENF.Entity;
+using ENF.Entity.NotMapped;
 using NUnit.Framework;
 
 namespace BusinessTests

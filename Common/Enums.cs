@@ -1,5 +1,5 @@
 ﻿
-namespace EFN.Common
+namespace ENF.Common
 {
     public static class Enums
     {

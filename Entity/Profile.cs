@@ -1,6 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
 
-namespace EFN.Entity
+namespace ENF.Entity
 {
     /// <summary>
     /// <list type="bullet">

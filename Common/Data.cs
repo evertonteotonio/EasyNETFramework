@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.IO;
 
-namespace EFN.Common
+namespace ENF.Common
 {
     public static class Data
     {

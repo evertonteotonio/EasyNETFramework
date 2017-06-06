@@ -1,5 +1,5 @@
 ﻿using System;
-using EFN.Common;
+using ENF.Common;
 
 namespace Entity.System
 {

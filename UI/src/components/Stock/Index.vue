@@ -39,7 +39,7 @@
           <th></th>
           <th class="text-left">Item Name</th>
           <th class="text-right">Price</th>
-          <th class="text-right">In Stock</th>
+          <th class="text-right">Available</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +47,7 @@
           <td><input type="checkbox" value="" @click="changeState(item)"/></td>
           <td class="text-left">{{item.itemName}}</td>
           <td class="text-right">${{item.price}}</td>
-          <td class="text-right">101</td>
+          <td class="text-right">{{item.itemStock.available}}</td>
         </tr>
       </tbody>
     </table>
@@ -86,7 +86,7 @@ export default {
       })
     },
     GetStock: function () {
-      this.$http.get('Item/FindAll?page=1&limit=1000').then(response => {
+      this.$http.get('Item/ItemWithStock?page=1&limit=1000').then(response => {
         // get body data
         this.stockItem = response.body.data
       }, response => {

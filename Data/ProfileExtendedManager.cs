@@ -1,6 +1,6 @@
-﻿using EFN.Entity;
+﻿using ENF.Entity;
 
-namespace EFN.Data
+namespace ENF.Data
 {
     public class ProfileExtendedManager : GeneralManager<Profile>
     {

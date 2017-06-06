@@ -1,5 +1,5 @@
 ﻿
-namespace EFN.Entity.NotMapped
+namespace ENF.Entity.NotMapped
 {
     public class Search
     {
