@@ -38,6 +38,10 @@ const router = new VueRouter({
         {
           path: 'Stock',
           component: load('Stock/Index')
+        },
+        {
+          path: 'Order',
+          component: load('Order/Index')
         }
       ]
     }, // Default

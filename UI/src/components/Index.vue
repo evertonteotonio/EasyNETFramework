@@ -46,6 +46,11 @@
             Stock Management
           </q-drawer-link>
         </div>
+        <div class="list no-border platform-delimiter">
+          <q-drawer-link icon="store" :to="{path: '/Admin/Order', exact: true}">
+            Order Management
+          </q-drawer-link>
+        </div>
       </q-drawer>
       <!-- IF USING subRoutes only: -->
     <q-fab class="absolute-bottom-right touch-only" classNames="purple"
