@@ -47,13 +47,18 @@ Before Starting:
 
  1. Adding a new entity
 Go to your database and add a table with whatever columns you need, for this tutorial we will add an `Order` table and then add the POCO class to the entity project as follow (Make sure you have the Key attribute over the Id column and make sure it's nullable):
+
 ![SQL Table](https://raw.githubusercontent.com/amr-swalha/EasyNETFramework/master/Documentation/Images/2-Order.png)
+
 
 ![POCO Entity](https://github.com/amr-swalha/EasyNETFramework/blob/master/Documentation/Images/3-Order%20entity.png?raw=true)
 
 Then you will need to add an GeneralManager field so you can access that entity and save and retrieve data. Go to the Data project, and in the Context class add the filed of type Order:
+
 ![DbSet Like in the Context](https://github.com/amr-swalha/EasyNETFramework/blob/master/Documentation/Images/4-Order%20context.png?raw=true)
+
 Now, we will go to RESTFul project and add a Web API Controller that inherit the BaseController (You can add a new Web API controller from the Add New File but just remember to change it to inherit from the base Controller):
+
 ![API Controller](https://github.com/amr-swalha/EasyNETFramework/blob/master/Documentation/Images/5-Order%20API%20controller.png?raw=true)
 
 Now just simply call the DbContext and call whatever method you like to perform the operation you desire. For now we will use the FindAll as follow (The search object is a not mapped entity and used to pass different query strings like limiting number of rows, paging, etc.):
@@ -61,7 +66,9 @@ Now just simply call the DbContext and call whatever method you like to perform 
 ![FindAll](https://github.com/amr-swalha/EasyNETFramework/blob/master/Documentation/Images/6-Order%20API%20FindAll.png?raw=true)
 
 Now let's go to the Quasar Side and add a new VueJS Component in the src/components folder in the UI project. We will add a new folder and call it order and place inside it an index.vue file:
+
 ![Component](https://github.com/amr-swalha/EasyNETFramework/blob/master/Documentation/Images/7-Order%20vue.png?raw=true)
+
 
 And it will contain the following code:
 
