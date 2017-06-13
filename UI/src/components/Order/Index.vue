@@ -13,9 +13,9 @@
       <tbody>
         <tr v-for="item in orders">
           <td><input type="checkbox" value="" @click="changeState(item)"/></td>
-          <td class="text-left">{{item.orderTitle}}</td>
-          <td class="text-right">${{item.amount}}</td>
-          <td class="text-right">{{item.customerName}}</td>
+          <td class="text-left">{{item.OrderTitle}}</td>
+          <td class="text-right">${{item.Amount}}</td>
+          <td class="text-right">{{item.CustomerName}}</td>
         </tr>
       </tbody>
     </table>

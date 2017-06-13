@@ -121,7 +121,7 @@ export default {
       columns: [
         {
           label: 'Id',
-          field: 'id',
+          field: 'Id',
           sort: true,
           filter: true,
           format (value) {
@@ -134,7 +134,7 @@ export default {
         },
         {
           label: 'Full Name',
-          field: 'fullName',
+          field: 'FullName',
           sort: true,
           filter: true,
           width: '500px'

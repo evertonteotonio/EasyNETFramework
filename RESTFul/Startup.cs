@@ -51,6 +51,10 @@ namespace ENF.RESTFul
                                  .RequireAuthenticatedUser()
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
+                config.InputFormatters.Clear();
+                config.OutputFormatters.Clear();
+                config.InputFormatters.Insert(0, new JilInputFormatter());
+                config.OutputFormatters.Insert(0, new JilOutputFormatter());
             });
             services.AddAuthorization(options =>
             {

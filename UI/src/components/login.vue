@@ -43,9 +43,10 @@ export default {
       if (this.validateLogin()) {
         this.$http.post('jwt', { UserName: this.UserName, Password: this.Password }).then(response => {
           // get body data
-          console.log(response.body)
-          Store.commit('increment', response.body.access_token)
-          this.$http.get('user/FindbyId/' + response.body.User_Id).then(responseUser => {
+          console.log(JSON.parse(response.body))
+          var userData = JSON.parse(response.body)
+          Store.commit('increment', userData.access_token)
+          this.$http.get('user/FindbyId/' + userData.User_Id).then(responseUser => {
             console.log(responseUser.body)
             Store.commit('userData', responseUser.body)
           })
