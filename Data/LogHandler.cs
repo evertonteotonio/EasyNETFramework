@@ -35,7 +35,7 @@ namespace ENF.Data
         }
         public static void Trace(string msg, object value = null)
         {
-            using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
+            /*using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
             {
                 connection.Insert(new Log
                 {
@@ -43,7 +43,7 @@ namespace ENF.Data
                     Message = msg,
                     LogLevel = Enums.LogLevel.Trace
                 });
-            }
+            }*/
         }
         public static void Debug(string msg, object value)
         {

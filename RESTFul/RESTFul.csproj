@@ -5,20 +5,23 @@
     <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
     <AssemblyName>ENF.RESTFul</AssemblyName>
     <RootNamespace>ENF.RESTFul</RootNamespace>
+    <ApplicationInsightsResourceId>/subscriptions/e904694f-6545-4682-9965-4cecf7b343c2/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/RESTFul</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/e904694f-6545-4682-9965-4cecf7b343c2/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/RESTFul</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CacheManager.Microsoft.Extensions.Caching.Memory" Version="1.0.1" />
-    <PackageReference Include="CacheManager.SystemRuntimeCaching" Version="1.0.1" />
+    <PackageReference Include="CacheManager.Microsoft.Extensions.Caching.Memory" Version="1.1.0" />
+    <PackageReference Include="CacheManager.SystemRuntimeCaching" Version="1.1.0" />
     <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Dapper.SimpleCRUD" Version="1.13.0" />
     <PackageReference Include="DotNetZip" Version="1.10.1" />
     <PackageReference Include="Jil" Version="2.15.0" />
     <PackageReference Include="LazyCache" Version="0.7.1.44" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />
@@ -27,7 +30,7 @@
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
@@ -43,6 +46,9 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
