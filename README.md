@@ -1,6 +1,8 @@
 EasyNETFramework
 ----------------
 
+[![Join the chat at https://gitter.im/EasyNETFramework/Lobby](https://badges.gitter.im/EasyNETFramework/Lobby.svg)](https://gitter.im/EasyNETFramework/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The framework for .NET developers to develop mobile applications and websites using the same code repository.
 
 So this is you trying to create a website and mobile application all at once:

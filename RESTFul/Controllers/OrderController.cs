@@ -25,27 +25,30 @@ namespace ENF.RESTFul.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Order Get(int id)
         {
-            return "value";
+            return DbContext.OrderManager.FindById(id);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public Order Post([FromBody]Order Order)
         {
+            return DbContext.OrderManager.Add(Order);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public Order Put([FromQuery]Order Order)
         {
+            return DbContext.OrderManager.Update(Order);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Order Delete([FromBody]Order order)
         {
+            return DbContext.OrderManager.Delete(order);
         }
     }
 }
