@@ -19,7 +19,7 @@ namespace BusinessTests
             var result = _extendedManager.Add(user);
             Assert.NotNull(result);*/
             Context context = new Context();
-            context.UserManager.FindAll(new Search(), "Profile");
+            //context.UserManager.FindAll(new Search(), "Profile");
         }
     }
 }

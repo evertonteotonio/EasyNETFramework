@@ -21,11 +21,8 @@
     <PackageReference Include="GraphQL" Version="0.15.1.678" />
     <PackageReference Include="Jil" Version="2.15.0" />
     <PackageReference Include="LazyCache" Version="0.7.1.44" />
-<<<<<<< HEAD
-=======
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.3.0" />
->>>>>>> origin/master
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />

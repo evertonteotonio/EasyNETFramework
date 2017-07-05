@@ -1,19 +1,13 @@
 ﻿using ENF.Entity.NotMapped;
 using ENF.Entity.Stock;
 using Microsoft.AspNetCore.Mvc;
-using ENF.Data.Stock;
-using Microsoft.AspNetCore.Authorization;
 
 //For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 namespace ENF.RESTFul.Controllers
 {
-<<<<<<< HEAD
+
     using Data.Stock;
-
     using Microsoft.AspNetCore.Authorization;
-
-=======
->>>>>>> origin/master
     [Route("api/[controller]")]
     public class ItemController : BaseController
     {
