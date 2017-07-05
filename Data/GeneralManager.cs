@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using ENF.Common;
 using Dapper;
 using ENF.Entity.NotMapped;
@@ -243,7 +244,33 @@ namespace ENF.Data
             }
             return "error";
         }
-
+        /*public List<T> FindAll(Search search,string include)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Common.Data.ConnectionString))
+                {
+                    var items = FindAll(search);
+                    var includeType = Type.GetType(include);
+                    MethodInfo method = typeof(SqlMapper).GetMethod("Query");
+                    MethodInfo generic = method.MakeGenericMethod(includeType);
+                    var itemStock = generic.Invoke(this, "SELECT * FROM dbo.[{include}] [is] JOIN dbo.[{typeof(T).Name}] i ON [is].Id = i.Id");
+                    //var itemStock = connection.Query< includeType.GetGenericTypeDefinition()> ($"SELECT * FROM dbo.[{include}] [is] JOIN dbo.[{typeof(T).Name}] i ON [is].Id = i.Id");
+                    foreach (var item in items)
+                    {
+                        var propProfile = item.GetType().GetProperty(include);
+                        var propId = item.GetType().GetProperty("Id");
+                        propProfile.SetValue(propProfile, itemStock.FirstOrDefault(stock => stock.GetType().GetProperty("Id").GetValue(stock.GetType().GetProperty("Id")) == propId.GetValue(propId)));
+                    }
+                    return items;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }*/
         ~GeneralManager()
         {
             

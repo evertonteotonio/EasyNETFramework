@@ -5,7 +5,7 @@ using Dapper;
 using System.Linq;
 namespace ENF.Data.Stock
 {
-    using ENF.Entity.NotMapped;
+    using Entity.NotMapped;
 
     public class ItemExtendedManager : GeneralManager<Item>
     {

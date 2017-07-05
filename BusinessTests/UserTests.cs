@@ -1,6 +1,5 @@
-﻿using System;
-using ENF.Data;
-using ENF.Entity;
+﻿using ENF.Data;
+using ENF.Entity.NotMapped;
 using NUnit.Framework;
 
 namespace BusinessTests
@@ -11,14 +10,16 @@ namespace BusinessTests
         [Test]
         public void Add()
         {
-            UserExtendedManager _extendedManager = new UserExtendedManager();
+            /*UserExtendedManager _extendedManager = new UserExtendedManager();
             User user = new User();
             user.Password = user.sha256("123456");
             user.ProfileId = 1;
             user.UserName = "test";
             //user.CreatedAt = DateTime.Now;
             var result = _extendedManager.Add(user);
-            Assert.NotNull(result);
+            Assert.NotNull(result);*/
+            Context context = new Context();
+            context.UserManager.FindAll(new Search(), "Profile");
         }
     }
 }
